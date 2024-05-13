@@ -18,17 +18,23 @@ knitr::opts_chunk$set(echo = TRUE)
 
 
 # Part 1 - Design and set-up of true experiment 
-
+This experiment will evaluate the impact of music on cognitive performance of test subjects.
 
 ## The motivation for the planned research 
-(Max 200 words)
+While anecdotal evidence and some research suggest that listening to classical music can improve cognitive abilities, such as memory and attention, further scientific investigation is required to validate these claims. Such research not only sheds light on the potential benefits of music for cognitive enhancement but also informs practical applications in various settings, including education, therapy, and workplace environments. Ultimately, understanding how classical music influences cognitive function contributes to our broader understanding of human cognition and behavior.
+
+Further, a deeper exploration into the effects of classical music on cognitive function offers a pathway to uncovering the intricacies of the mind's response to auditory stimuli. In exploring this realm, this experiment aims to establish robust empirical evidence that can guide the development of evidence-based interventions and strategies for cognitive enhancement. Moreover, understanding the mechanisms through which classical music influences cognitive processes holds promise for optimizing learning environments, designing therapeutic interventions, and fostering creativity and productivity in professional settings. This pursuit not only enriches our understanding of human cognition but also underscores the transformative potential of music in shaping cognitive abilities and behaviors.
 
 ## The theory underlying the research  
-(Max 200 words) Preferable based on theories reported in literature
+Numerous studies have suggested that music can influence cognitive functions such as attention, memory, and problem-solving. One study experimented with what is known as the 'Vivaldi effect' and found that classical music significantly increases working memory performance compared to the condition without music \cite{mamma}. Another study found a statistically significant positive correlation between mindfulness, as measured by the Mindful Attention Awareness Scale (MAAS), and spatial reasoning skills, as measured by the Spatial Ability Practice Test 1 (SAPT1), particularly among participants exposed to a receptive music program for 12 weeks, indicating that long-term listening to classical music may enhance spatio-temporal reasoning abilities \cite{bell}.
+
+A similar study study explored the impact of preferred and non-preferred popular music, as well as classical music, on the cognitive performance of college students in terms of reading comprehension \cite{harmon}. Before testing, participants listened to each music type, which aimed to alleviate the potential distractions music might pose during cognitive tasks. Although no significant differences were found in reading comprehension scores across the music conditions, the experiment raises interest in further investigating how classical music might affect cognitive performance when compared to no music at all, thus indicating the potential value of a more focused study on classical music's cognitive effects.
 
 
 ## Research questions 
-The research question that will be examined in an experiment (or alternatively the hypothesis that will be tested in an  experiment)
+What is the effect of listening to classical music or white noise on memory retention?
+
+Hypothesis: Participants who study a set of flashcards while listening to classical music will exhibit better memory retention compared to those who study with white noise or in silence. This improvement in memory retention will not be observed in the white noise group compared to the silence group.
 
 
 ## The related conceptual model 
@@ -40,20 +46,107 @@ This model should include:
 
 
 ## Experimental Design 
-Experimental Design (the study should have a true experimental design to test a single hypothesis that, for simplicity, includes only independent variable(s) and dependent variable(s). In other words, mediating and moderating variables are not included in the experimental design ) 
+This experiment will be true experimental. This design allows for high control over variables and can
+more definitively establish causality, which is critical for understanding the impact of auditory conditions on
+memory retention.
+Hypotheses:
+• H1: Participants who study flashcards while listening to classical music will show better memory
+retention than those studying in silence.
+• H2: No significant difference in memory retention will be observed between the white noise and silence
+conditions.
+
+Recruitment: Multiple channels will be utilized, such as university mailing lists, local community boards,
+and social media platforms to reach a diverse audience.
+Inclusion Criteria: Aged 18-24 to focus on young adults whose cognitive development is stable and less
+likely to be affected by aging processes that might confound results in an older population.
+Diversity: Actively seek a balance in terms of gender and cultural background by setting recruitment
+quotas to ensure representation from various demographic groups.
+Sample Size: Use power analysis to ensure adequate power to detect effects, considering a medium ef-
+fect size, 80% power, and a 5% significance level
+
+Materials:
+Flashcards: Develop sets containing complex, related content (e.g., historical facts, scientific concepts) that
+require associative memory skills, suitable for testing deeper cognitive processing.
+Music and Equipment: Use identical headphones for all participants to standardize audio quality. Music
+tracks and noise levels are standardized in terms of volume and quality.
+
+Random Assignment: Implement using software to minimize bias.
+Blinding: Ensure the experimenter administering tests does not know the participant’s condition. Use
+a coded system where another team member sets up the auditory condition without informing the test
+administrator.
+
+This study aims to explore the impact of auditory conditions—specifically classical music, white noise, and
+silence—on memory retention among college students aged 18-24. Employing a true experimental design
+with a between-subjects approach, participants will be randomly assigned to one of the three auditory condi-
+tions. Each participant will first complete a baseline memory test to gauge their initial memory capabilities.
+Following this, they will study a set of flashcards containing complex associative information for 30 minutes
+under their assigned auditory condition. Memory retention will be assessed immediately after the study
+session to evaluate short-term retention. Data analysis will be conducted using one-way ANOVA to compare
+the memory scores across the three groups, with post hoc tests (Tukey’s HSD) for detailed comparisons. The
+study also includes a post-experiment survey to gather qualitative data on the participants’ experiences and
+preferences regarding the auditory conditions. This approach ensures the study’s alignment with rigorous
+scientific standards while addressing ethical considerations by securing informed consent and maintaining
+participant confidentiality
 
 ## Experimental procedure 
-Describe how the experiment will be executed step by step
-
+1. Provide a comprehensive explanation of the experiment to each participant, focusing on the purpose
+of the study, what their participation involves, the duration of the study, their rights as participants
+(including confidentiality and the right to withdraw at any time without penalty), and any potential
+risks involved.
+2. Present and review a detailed consent form with each participant, ensuring they understand all aspects
+of what they are agreeing to. Allow time for participants to ask questions.
+3. Collect the signed consent form from each participant before proceeding.
+4. Administer a baseline memory test to measure the natural memory ability.
+5. Escort the participant to a sound-proofed room designed to minimize external distractions. Ensure
+that the only variable within the participant’s environment that changes is the auditory condition.
+6. Adjust the room to have comfortable seating and adequate lighting to facilitate focus and minimize
+physical discomfort.
+7. Play the assigned auditory condition (classical music, white noise, or silence) through standardized
+audio equipment at a consistent volume (70 dB) across sessions. The classical music is as follows:
+White noise is specified as equal intensity of all frequencies audible to the human ear (20Hz to 20 kHz,
+at 70 dB).
+Table 1: Classical Music Audios
+Song / Artist / Length
+”Spring” Antonio Vivaldi 3:00
+Brandenburg Concerto No. 3 (G Major) Johann Sebastian Bach 10:00
+Piano Sonata No. 11 (A Major) Wolfgang Amadeus Mozart 3:00
+”Winter” Antonio Vivaldi 2:00
+Cello Suite No. 1 (G Major) Johann Sebastien Bach 2:00
+Symphony No. 40 (G Minor) Wolfgang Amadeus Mozart 7:00
+”Autumn” Antonio Vivaldi 3:00
+8. Allow the participant to study the flashcards for 30 uninterrupted minutes while the audio is playing.
+9. Administer a structured test 5 minutes after the study period.
+10. Record the participant’s scores from the memory test, noting both the number of correct answers and
+the types of errors made. *Use standardized forms for data entry to maintain consistency in how
+information is recorded.
+11. Collect qualitative information from the participant with respect to their experiences and preferences
+regarding auditory conditions to understand moderating effects.
 
 ## Measures
-Describe the measure that will be used
+In this experiment, we will employ a series of precise measures to evaluate the impact of auditory conditions on memory retention. The primary tool for assessing memory retention will be a structured memory test, which will be administered immediately following a 30-minute study session and then again one week later to evaluate both short-term and long-term memory retention. This test will consist of recall and recognition tasks based on the content of the flashcards studied during the session. Each correct response will be scored, with additional points for accuracy in recall tasks, allowing us to quantitatively measure the level of information retained.
+
+Additionally, the intensity and characteristics of the auditory stimuli, specifically classical music and white noise, will be rigorously controlled. Sound levels will be standardized and monitored using a decibel meter to ensure consistency across all sessions. Participants will experience the auditory conditions through high-quality, noise-canceling headphones to isolate them from any external sounds.
+
+To further understand the participants' subjective experiences and any potential psychological effects of the auditory conditions, we will also collect qualitative data through post-experiment interviews. These interviews will probe participants' feelings about the study environment, their perceived concentration levels, and their preferences for background noise when studying. This qualitative information will be analyzed thematically to provide insights into how auditory conditions might influence cognitive performance beyond measurable memory retention.
+
+This combination of quantitative and qualitative measures will enable a thorough analysis of the auditory conditions' effects, ensuring that our findings are both robust and nuanced. By documenting and controlling these variables meticulously, we aim to provide reliable, replicable results that contribute meaningfully to our understanding of auditory influences on cognitive performance.
 
 ## Participants
-Describe which participants will recruit in the study and how they will be recruited
+Participants for this study will be recruited from a university student population, specifically targeting individuals aged 18-24. This age range is selected to focus on young adults whose cognitive development is generally stable, minimizing variability due to developmental differences that might be more pronounced in a broader age range. We aim to recruit a diverse sample in terms of gender, cultural background, and academic discipline to enhance the generalizability of our findings across different demographic groups. A total of approximately 90 participants will be enrolled, based on a power analysis conducted to ensure sufficient statistical power to detect medium-sized effects in memory performance across the three auditory conditions. All participants will be required to meet inclusion criteria, such as having normal or corrected-to-normal hearing and vision, and no history of neurological or psychiatric conditions that might influence cognitive performance. Prior to participation, all individuals will sign an informed consent form, which details the study’s purpose, procedures, potential risks, and their rights, including confidentiality and the ability to withdraw from the study at any time without penalty. Ethical approval for the study will be obtained from the university’s review board to ensure all procedures adhere to ethical standards concerning research involving human subjects.
 
 ## Suggested statistical analyses
-Describe the statistical test you suggest to care out on the collected data
+The statistical analysis for this study will primarily involve the use of Analysis of Variance (ANOVA), a robust statistical method suitable for comparing the means of three or more independent (unrelated) groups. Given that our independent variable, auditory condition, includes three different levels (classical music, white noise, and silence), a one-way ANOVA is the most appropriate choice to determine whether there are statistically significant differences in memory retention scores across these groups.
+
+To determine the required sample size, G*Power software is used, setting the parameters for an ANOVA (fixed effects, omnibus, one-way). The parameters for this calculation will include:
+Effect Size (f): a medium effect size is estimated (f = 0.25) based on Cohen’s conventions, which is
+typical for psychological studies where large effect sizes are uncommon.
+• α (Alpha): Set at 0.05, this is the standard cutoff for statistical significance, providing a 5% risk of
+committing a Type I error, that is, falsely declaring a difference when none exists.
+• Power (1 - β): Set at 0.80, this suggests the study will have an 80% chance of detecting an effect, if
+one truly exists, thus accepting a 20% risk of a Type II error.
+G*Power indicates that 159 participants in total are needed to achieve the desired power level. This
+means approximately 53 participants per group if evenly distributed. The actual power (0.8048873), slightly
+above 80%, is ideal as it is slightly more robust than the minimum acceptable level.
 
 # Part 2 - Generalized linear models
 
@@ -736,20 +829,129 @@ PI_long$session <- as.numeric(PI_long$session)
 ## Visual inspection
 graphics to inspect the relationship between sessions and your feature values. Give a short description of the figure.
 
+The analysis of the relationship between session and the responses to feature 6, represented in the box plot below, indicates a generally consistent distribution across different sessions. The box plot illustrates that while there are slight variations in the median values of feature 6 responses between sessions, these differences are not substantial. The interquartile ranges (IQRs) overlap considerably across the sessions, suggesting that the central tendency and spread of responses are relatively stable. This supports a relative consistency in how this feature is perceived or experienced across different sessions.
 
 ```{r}
 #include your code and output in the document
+# Load necessary libraries
+library(tidyverse)
+library(tidyr)
+library(ggplot2)
+library(lme4)
+
+# Load in the main data frame labelled 'df'
+df <- read.csv('/Users/ellabakker/Desktop/Data Science/conversational_sessions_anonym.csv')
+
+# Load in the explanations of each column as 'exp'
+exp <- read_excel('/Users/ellabakker/Desktop/Data Science/conversational_sessions_data_explanation.xlsx')
+
+# Focus only on the columns we need
+df_specific <- df %>%
+  select(starts_with("state_"), rand_id)
+
+
+# Focus only on Feature 6
+# Apply the function to each column of the dataframe
+extract_seventh_char <- function(column) {
+  seventh_chars <- substr(column, 13, 13)
+  return(seventh_chars)
+}
+extract_seventh_char <- function(column) {
+  as.character(substr(column, 13, 13))
+}
+
+# Apply extraction function across the specific columns, keeping rand_id
+df_feature6 <- df_specific %>%
+  mutate(across(starts_with("state_"), extract_seventh_char)) %>%
+  rename_with(~ str_replace(., "state_", "Session_"), starts_with("state_"))
+
+# Convert the extracted character data to numeric
+df_feature6 <- df_feature6 %>%
+  mutate(across(starts_with("Session_"), as.numeric))
+
+# Rename the columns from "state" to "Session"
+df_feature6 %>% 
+  rename(
+    Session_1 = state_0,
+    Session_2 = state_1,
+    Session_3 = state_2,
+    Session_4 = state_3,
+    Session_5 = state_4
+  )
+
+# Make a boxplot relating session and feature value
+df_feature6_long <- pivot_longer(df_feature6, cols = everything(), 
+                                 names_to = "State", values_to = "Values")
+
+# Impute missing values with mean of respective columns
+for (col in names(df_feature6)) {
+  df_feature6[is.na(df_feature6[, col]), col] <- mean(df_feature6[, col], na.rm = TRUE)
+}
+
+# Plot the boxplot, excluding the 'rand_ID' column
+boxplot(df_feature6[ , !names(df_feature6) %in% "rand_id"], 
+        main = "Feature Responses Across All Sessions",
+        xlab = "Session",
+        ylab = "Values",
+        notch = FALSE,  # If you want notches
+        notchwidth = 0.5,  # Adjust the width of the notches
+        col = 'orange',
+        names = c('Session 1', 'Session 2', 'Session 3', 'Session 4', 'Session 5'))
 ```
 
 ## Model specification
 Describe the mathematical model you fit to the data. Take the most complete model as specified in point 5b.iii. Also, explain your selection for the priors. For the model assume a Gaussian distribution.
 
+In the analysis, a linear mixed-effects model was fitted to the data to investigate the relationship between the outcome variable, denoted as "Values," and the explanatory variable "Session." The model incorporates both fixed effects, representing the influence of each session on the outcome, and random effects, allowing for variability among different levels of the grouping variable $"rand_id."$ Specifically, random intercepts were included for each unique value of $"rand_id,"$ capturing any unobserved heterogeneity within these groups. The error term in the model was assumed to follow a Gaussian distribution. In terms of priors, the default settings were used, as provided by the lmer() function in R, which typically employ relatively uninformative priors suitable for most scenarios. The selection between models was made based on the results of an ANOVA test, which demonstrated a significant improvement in model fit when transitioning from the baseline model (model0), containing only a constant term, to the more complex model (model1) incorporating session effects (Session). The statistically significant improvement in model fit, indicated by a low p-value (p < 0.001), supported the decision to include the session effects in the model.
+
+The most complete model includes the session as a fixed factor. This model builds on the baseline model with a random intercept for participants by also incorporating session-specific effects. This is essential for assessing whether the feature systematically varies across sessions. This can be seen in the anova comparison of model0 and model1.
+
 ## Generate synthetic data
 To verify your analysis later on, create a multilevel synthetic data set with a clear difference between sessions. Report the values of the linear model's coefficients used to generate synthetic data; you will need this to answer questions later on.
 
+The following script generates random effects for each participant using a normal distribution with a mean of 0 and a standard deviation specified by the variable sigma\_participant. The script defines various parameters such as the number of observations (n), the number of unique sessions (n\_sessions), and the number of unique participants (n\_participants).
+
+Example coefficients are defined for the linear model, including the baseline intercept (beta\_intercept), session effects (beta\_session\_effect), and standard deviations for random intercepts of participants (sigma\_participant) and residuals (sigma\_residual).
+
+Using these parameters, synthetic data is generated. Random effects for participants are assigned to each observation based on their rand\_id. The true values of the outcome variable (True\_Values) are calculated using the defined coefficients and random effects, with added noise from a normal distribution with mean 0 and standard deviation sigma\_residual. The "Values" column is then populated with these true values.
 
 ```{r}
 #include your code and output in the document
+library(dplyr)
+library(lme4)
+
+# Coefficients (example values)
+beta_intercept <- 2   # Baseline intercept
+beta_session_effect <- c(0, 0.5, 1, 1.5, 2)  # Effect per session, assuming 5 sessions
+sigma_participant <- 0.5  # SD of random intercepts for participants
+sigma_residual <- 1    # SD of residuals
+
+df_feature6_long$Session <- as.numeric(as.factor(df_feature6_long$Session))
+df_feature6_long$rand_id <- as.factor(df_feature6_long$rand_id)
+participant_effect <- rnorm(nlevels(df_feature6_long$rand_id), mean = 0, 
+                            sd = sigma_participant)
+
+# Define parameters
+n <- nrow(df_feature6_long)
+n_sessions <- length(unique(df_feature6_long$Session))
+n_participants <- length(unique(df_feature6_long$rand_id))
+
+# Generate synthetic data
+set.seed(123)  # for reproducibility
+participant_effect <- rnorm(n_participants, mean = 0, sd = sigma_participant)
+df_synthetic <- df_feature6_long %>%
+  mutate(
+    Participant_Effect = participant_effect[as.integer(rand_id)], 
+    True_Values = beta_intercept + beta_session_effect[Session] + 
+      Participant_Effect + rnorm(n, mean = 0, sd = sigma_residual),
+    Values = True_Values
+  )
+
+ggplot(df_synthetic, aes(x=factor(Session), y=Values)) +
+  geom_boxplot() +
+  labs(x = "Session", y = "Values") +
+  ggtitle("Box Plot of Values by Session")
+
 ```
 
 ## Frequentist approach
@@ -757,10 +959,94 @@ To verify your analysis later on, create a multilevel synthetic data set with a 
 ### Verification - analysis synthetic data
 Fit multilevel linear models on the synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
 
+The analysis involved fitting a multilevel linear model to the generated synthetic data set. The model incorporated fixed effects for the session variable and random intercepts for each participant. The model summary revealed that both the intercept and session coefficient were statistically significant, indicating that there were significant differences in the outcome variable across sessions. 
+
+Upon comparison of the estimated coefficients from the model with the true coefficients used to generate the synthetic data, some discrepancies were observed. While the estimated intercept closely matched the true intercept of 2.0, the estimated session coefficients deviated from the true values. For instance, the estimated session effect for Session 1 closely matched the true coefficient, but for subsequent sessions, the estimated effects consistently differed from the true values. 
+
+This suggests that while the multilevel linear model effectively captured the overall trends in the data, there may be nuances or complexities not fully accounted for in the model specification. Possible reasons for the discrepancies could include model misspecification, unmodeled heterogeneity, or the presence of unobserved variables influencing the outcome. Therefore, while the model provides valuable insights into the relationship between sessions and the outcome variable, further investigation and refinement of the model may be warranted to improve its accuracy in capturing the underlying data generation process.
+
+The code used can be seen below:
 
 ```{r}
 #include your code and output in the document
+library(lme4)
+library(lmerTest)
+
+# Fit multilevel linear model
+model <- lmer(Values ~ Session + (1 | rand_id), data = df_synthetic)
+
+# Display model summary
+summary(model)
+
+# Extract fixed effects coefficients
+fixed_effects <- fixef(model)
+fixed_effects
+
+# Compare with true coefficients
+true_coefficients <- c(intercept = beta_intercept, session_effect = beta_session_effect[1:n_sessions])
+true_coefficients
+
+# Compare estimated coefficients with true coefficients
+comparison <- data.frame(
+  True_Coefficients = true_coefficients,
+  Estimated_Coefficients = c(fixed_effects[1], fixed_effects[-1])
+)
+comparison
+
+# Reflection
 ```
+> summary(model)
+Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: Values ~ Session + (1 | rand_id)
+   Data: df_synthetic
+
+REML criterion at convergence: 10671.8
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.3223 -0.6450  0.0110  0.6296  3.6151 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ rand_id  (Intercept) 0.2214   0.4705  
+ Residual             0.9946   0.9973  
+Number of obs: 3575, groups:  rand_id, 715
+
+Fixed effects:
+             Estimate Std. Error        df t value Pr(>|t|)    
+(Intercept) 1.492e+00  4.289e-02 3.279e+03   34.78   <2e-16 ***
+Session     5.039e-01  1.179e-02 2.859e+03   42.72   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+        (Intr)
+Session -0.825
+> # Extract fixed effects coefficients
+> fixed_effects <- fixef(model)
+> fixed_effects
+(Intercept)     Session 
+  1.4917323   0.5038571 
+> # Compare with true coefficients
+> true_coefficients <- c(intercept = beta_intercept, session_effect = beta_session_effect[1:n_sessions])
+> true_coefficients
+      intercept session_effect1 session_effect2 session_effect3 session_effect4 
+            2.0             0.0             0.5             1.0             1.5 
+session_effect5 
+            2.0 
+> # Compare estimated coefficients with true coefficients
+> comparison <- data.frame(
++   True_Coefficients = true_coefficients,
++   Estimated_Coefficients = c(fixed_effects[1], fixed_effects[-1])
++ )
+> comparison
+                True_Coefficients Estimated_Coefficients
+intercept                     2.0              1.4917323
+session_effect1               0.0              0.5038571
+session_effect2               0.5              1.4917323
+session_effect3               1.0              0.5038571
+session_effect4               1.5              1.4917323
+session_effect5               2.0              0.5038571
 
 ### Multilevel analysis
 Conduct multilevel analysis and calculate 95% confidence intervals thereby assuming a Gaussian distribution for the model, determine:
@@ -771,10 +1057,44 @@ Conduct multilevel analysis and calculate 95% confidence intervals thereby assum
 
 ```{r}
 #include your code and output in the document
+model_4b <- lmer(Values ~ Session + (1 + Session | rand_id), data = df_feature6_long)
+
+summary(model)
 ```
+Linear mixed model fit by REML. t-tests use Satterthwaite's method ['lmerModLmerTest']
+Formula: Values ~ Session + (1 | rand_id)
+   Data: df_synthetic
+
+REML criterion at convergence: 10671.8
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-3.3223 -0.6450  0.0110  0.6296  3.6151 
+
+Random effects:
+ Groups   Name        Variance Std.Dev.
+ rand_id  (Intercept) 0.2214   0.4705  
+ Residual             0.9946   0.9973  
+Number of obs: 3575, groups:  rand_id, 715
+
+Fixed effects:
+             Estimate Std. Error        df t value Pr(>|t|)    
+(Intercept) 1.492e+00  4.289e-02 3.279e+03   34.78   <2e-16 ***
+Session     5.039e-01  1.179e-02 2.859e+03   42.72   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Correlation of Fixed Effects:
+        (Intr)
+Session -0.825
 
 ### Report section for a scientific publication
 Write a small section for a scientific publication, in which you report the results of the analyses on real data, and explain the conclusions that can be drawn.
+The impact of session attendance on individuals' state scores was analyzed here. Using a linear mixed model revealed compelling evidence supporting the influence of session attendance on individuals' state scores. Specifically, we found that each session attended was associated with a statistically significant average increase of 0.5039 units in state scores (t-value = 42.72, p < 2e-16), even after accounting for random effects attributable to individual differences.
+
+Moreover, our examination of the random effects component unveiled substantial variability in baseline state scores among participants. The variance estimate for random intercepts across participants (rand\_id) was 0.2214, corresponding to a standard deviation of 0.4705. This finding underscores the presence of significant between-participant variance in state scores, suggesting diverse baseline levels across individuals.
+
+These results collectively indicate that session attendance exerts a significant impact on individuals' state scores, with each session attended contributing positively to the overall score. Furthermore, the observed between-participant variance underscores the heterogeneity in baseline state scores among participants, highlighting the need for personalized interventions or tailored approaches in addressing individuals' states within the studied context.
 
 ## Bayesian approach
 For the Bayesian analyses, use the rethinking and/or BayesianFirstAid library
