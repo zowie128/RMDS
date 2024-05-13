@@ -409,7 +409,7 @@ post_samples <- extract.samples(m1_ba)
 ### Conceptual model
 Make a conceptual model underlying this research question
 
-![Conceptual model](/2_2_model.png)
+![Conceptual model](https://github.com/zowie128/RMDS/blob/main/2_2_model.png)
 
 ###  Model specification
 Describe the mathematical model that you fit on the data. Take for this the complete model that you fit on the data. Also, explain your selection for the priors. For the model assume a Gaussian distribution.
