@@ -295,7 +295,7 @@ m0_b <- ulam(
   alist(
     syn_activity_experience2 ~ dnorm(mu, sigma),
     mu <- a,
-    a ~ dnorm(4.5, 1),
+    a ~ dnorm(4, 1),
     sigma ~ dcauchy(0,2)
   ), data=syn_d, iter = 1000, chains=4, cores=4, log_lik=TRUE
 )
@@ -304,7 +304,7 @@ m1_b <- ulam(
   alist(
     syn_activity_experience2 ~ dnorm(mu, sigma),
     mu <- a + b1 * syn_PA_identity_level,
-    a ~ dnorm(4.5, 1),
+    a ~ dnorm(4, 1),
     b1 ~ dnorm(2, 1),
     sigma ~ dcauchy(0,2)
   ), 
@@ -323,6 +323,11 @@ precis(m1_b, prob=.95)
 #### Model comparison
 Redo the analysis on the actual data set. Provide a short interpretation of the results, with a reflection of coefficients, WAIC, and 95% credible interval of the coefficients.
 
+
+The coefficient estimates for both the intercept and predictor variable are relatively small but positive, indicating a positive relationship between the predictor variable and the outcome.
+The credible intervals for the coefficients are relatively narrow, suggesting a high degree of certainty in the estimates.
+The WAIC values indicate that model m1_ba, which includes the predictor variable, provides an only slightly better fit to the data compared to m0_ba, which does not include the predictor variable.
+
 ```{r}
 
 bay_real_data <- subset(smoking_dd, select = c("PA_Identity_Level","E2_sen"))
@@ -333,7 +338,7 @@ m0_ba <- ulam(
   alist(
     E2_sen ~ dnorm(mu, sigma),
     mu <- a,
-    a ~ dnorm(4.5, 1),
+    a ~ dnorm(4, 1),
     sigma ~ dcauchy(0,2)
   ), data=bay_real_data, iter = 1000, chains=4, cores=4, log_lik=TRUE
 )
@@ -342,8 +347,8 @@ m1_ba <- ulam(
   alist(
     E2_sen ~ dnorm(mu, sigma),
     mu <- a + b1 * PA_Identity_Level,
-    a ~ normal(4.5, 1),
-    b1 ~ normal(2, 1),
+    a ~ dnorm(4, 1),
+    b1 ~ dnorm(2, 1),
     sigma ~ dcauchy(0,2)
   ), 
   data = bay_real_data, iter = 1000, chains = 4, cores=4,log_lik=TRUE
@@ -355,7 +360,7 @@ print(precis(m1_ba, prob=.95))
 ```
 
 #### Comparison individual groups
-Compare the sentiment score of each physical activity group by estimating the 95% credible interval for the difference in the group scores. 
+Compare the sentiment score of each physical activity group by estimating the 95% credible interval for the difference in the group scores.
 
 ```{r}
 #Visualize it to show comparisons.
