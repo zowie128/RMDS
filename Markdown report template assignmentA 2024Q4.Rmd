@@ -487,6 +487,24 @@ fm1 <- lm(pages ~ version + portal + portal:version, data = d)
 anova(fm0, fm1)
 summary(fm1)
 ```
+Model 1: pages ~ version + portal
+Model 2: pages ~ version + portal + portal:version
+  Res.Df     RSS Df Sum of Sq     F    Pr(>F)    
+1    997 1212.97                                 
+2    996  971.86  1    241.11 247.1 < 2.2e-16 ***
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)    10.02263    0.06376  157.19   <2e-16 ***
+version         8.01570    0.08892   90.14   <2e-16 ***
+portal          3.96754    0.08850   44.83   <2e-16 ***
+version:portal  1.96493    0.12500   15.72   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 0.9878 on 996 degrees of freedom
+Multiple R-squared:  0.9641,	Adjusted R-squared:  0.964 
+F-statistic:  8912 on 3 and 996 DF,  p-value: < 2.2e-16
 
 Anova indicates that the extended model, which includes the interaction factor,
 is much more accurate denoted by its p-value relative to that of the basic model.
@@ -504,6 +522,19 @@ fm2 <- lm(pages ~ version + portal + portal:version, data = visits_csv)
 
 summary(fm2)
 ```
+
+Coefficients:
+               Estimate Std. Error t value Pr(>|t|)    
+(Intercept)     19.6280     0.3443   57.02   <2e-16 ***
+version         -7.6239     0.4898  -15.56   <2e-16 ***
+portal          13.4663     0.4898   27.49   <2e-16 ***
+version:portal  29.8808     0.6888   43.38   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 5.443 on 996 degrees of freedom
+Multiple R-squared:  0.9036,	Adjusted R-squared:  0.9033 
+F-statistic:  3110 on 3 and 996 DF,  p-value: < 2.2e-16
 
 Again all p-values are very small and thus statistically significant.
 
@@ -526,21 +557,21 @@ Continue with the model that assumes a Poisson distribution. If the analysis sho
 
 ```{r}
 #include your code and output in the document
-visits_csv$simple <- interaction(visits_csv$version, visits_csv$portal)
-levels(visits_csv$simple)
-contrastSimple <- c(1, -1, 0, 0)
-contrastComplex <- c(0, 0, 1, -1)
+#visits_csv$simple <- interaction(visits_csv$version, visits_csv$portal)
+#levels(visits_csv$simple)
+#contrastSimple <- c(1, -1, 0, 0)
+#contrastComplex <- c(0, 0, 1, -1)
 
-SimpleEff <- cbind(contrastSimple, contrastComplex)
-contrasts(visits_csv$simple) <- SimpleEff
-simpleEffModel <- lm(pages ~ simple, data = visits_csv)
-summary.lm(simpleEffModel)
+#SimpleEff <- cbind(contrastSimple, contrastComplex)
+#contrasts(visits_csv$simple) <- SimpleEff
+#simpleEffModel <- lm(pages ~ simple, data = visits_csv)
+#summary.lm(simpleEffModel)
 ```
-
+[TODO]
 
 #### Report section for a scientific publication
 Write a small section for a scientific publication, in which you report the results of the analyses, and explain the conclusions that can be drawn.
-
+[TODO]
 
 
 ### Bayesian Approach
@@ -564,6 +595,13 @@ bm0 <- ulam(alist(
 
 precis(bm0, prob = .95)
 ```
+
+       mean   sd 2.5% 97.5% rhat ess_bulk
+a     10.02 0.06 9.90 10.15    1  7339.75
+b      8.01 0.09 7.84  8.19    1  7640.59
+c      3.97 0.09 3.79  4.14    1  7297.19
+d      1.97 0.12 1.72  2.21    1  7590.43
+sigma  0.99 0.02 0.95  1.03    1 14606.42
 
 Again, the produced estimates for the coefficients very closely resemble those of the synthetic data.
 
@@ -591,6 +629,12 @@ bm1 <- ulam(alist(
 
 precis(bm1, prob = .95)
 ```
+
+   mean   sd  2.5% 97.5% rhat ess_bulk
+a 19.54 0.28 19.01 20.08    1  7513.46
+b -7.46 0.35 -8.15 -6.76    1  7591.56
+c 13.64 0.46 12.75 14.53    1  7768.30
+d 29.40 0.67 28.09 30.71    1  8029.76
 
 The produced estimates for the coefficients are comparable to those of the Frequentist approach.
 
