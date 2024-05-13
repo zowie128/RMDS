@@ -1,0 +1,629 @@
+---
+title: "Coursework assignment A - 2023-2024"
+subtitle: "CS4125 Seminar Research Methodology for Data Science"
+author: "[Name 1], [Name 2], Zoë Abhelakh"
+date: "27/03/2024"
+output:
+   pdf_document:
+      fig_caption: true
+      number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+\tableofcontents
+
+
+# Part 1 - Design and set-up of true experiment 
+
+
+## The motivation for the planned research 
+(Max 200 words)
+
+## The theory underlying the research  
+(Max 200 words) Preferable based on theories reported in literature
+
+
+## Research questions 
+The research question that will be examined in an experiment (or alternatively the hypothesis that will be tested in an  experiment)
+
+
+## The related conceptual model 
+This model should include:
+*Independent variable(s)
+*Dependent variable
+*Mediating variable (at least 1)
+*Moderating variable (at least 1)
+
+
+## Experimental Design 
+Experimental Design (the study should have a true experimental design to test a single hypothesis that, for simplicity, includes only independent variable(s) and dependent variable(s). In other words, mediating and moderating variables are not included in the experimental design ) 
+
+## Experimental procedure 
+Describe how the experiment will be executed step by step
+
+
+## Measures
+Describe the measure that will be used
+
+## Participants
+Describe which participants will recruit in the study and how they will be recruited
+
+## Suggested statistical analyses
+Describe the statistical test you suggest to care out on the collected data
+
+# Part 2 - Generalized linear models
+
+## Question 1 Sentiment analysis (Between groups - single factor) 
+
+### Conceptual model
+
+conceptual model for the following research question: Does the overall sentiment reported by smokers after a quitting smoking preparation activity differ by their level of self-identification with physical activity? 
+----------------------------------------------------------------------------------
+The independent variable is the level of self-identification participants gave with physical activity ('PA_Identity_Level'). This value is either low (value = 0), medium (value = 1) or high (value = 2). The values are computed based on the 33rd and 67th percentiles of raw physical identity value. 
+The dependent variable is the sentiment reported by smokers ('activity_experience2'). We hypothise that one's self-identififaction with physical activity influences the overall sentiment participants have towards the activity.  Specifically, participants with higher levels of self-identification with physical activity may report more positive sentiments after engaging in quitting smoking preparation activities that include physical activity components. 'activity_experience2' is chosen with the formula: sum of all birthmonths % 2
+
+
+### Model specification
+Describe the mathematical model fitted on the most extensive model. (hint, look at the mark down file of the lectures to see example on formulate mathematical models in markdown). For the model assume a Gaussian distribution. Justify the priors.
+----------------------------------------------------------------------------------
+We generate a null-hypothesis in the model 0 and a model 1 to see if the PA_identity level does indeed have an effect on the activity_experience reported by smokers. b0 is the prior intercept term and b1 is the prior coefficient, representing the effect of this variable on sentiment. e is the error term, representing the variability in sentiment that is not explained by the model.
+
+Model 0:
+activity_experience2 = b0 + e
+
+Model 1:
+activity_experience2 = b0 + b1 * PA_identity_level + e
+
+Since we are assuming a Gaussian distribution for the model we choose normal priors for b0 and b1. 
+b0: Activity_experience2 is determined by the number of positive words minus the number of negative words. This returns a integer value, which we assume is around 0 if the sentiment is neutral, which is the same amount of negative and positive words.
+
+
+### Generate synthetic data
+Create a synthetic data set with a clear difference between sentiments score between the groups for verifying your analysis later on. Report the values of the coefficients of the linear model used to generate synthetic data. (hint, look at class lecture slides of lecture 4 on Generalized linear models for example to create synthetic data for car example (slide 6))
+----------------------------------------------------------------------------------
+
+
+```{r}
+
+set_seed(23)
+#Create synthetic data
+syn_PA_identity_level <- rnorm(n = 680, mean=50, sd=20)
+
+bins <- quantile(syn_PA_identity_level, probs=c(0,1/3,2/3,1))
+print(bins)
+
+syn_activity_experience2 <- rnorm(680, mean=4, sd=1)
+
+syn_PA_identity_level <- cut(syn_PA_identity_level, 
+                             breaks =bins,
+                             labels = c("low", "medium", "high"))
+syn_d <- data.frame(syn_activity_experience2, syn_PA_identity_level)
+syn_d <- syn_d[complete.cases(syn_d), ]
+
+```
+
+###  Data preparation
+Include the annotated R script, but put echo=FALSE, so code is not included in the output pdf file. Make sure that next to data file, sentiment3.R, positive-words.txt, and negative-words.txt are in accessible directories.
+
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include = FALSE}
+
+#install.packages("RCurl", dependencies = T)
+library(RCurl)
+#install.packages("bitops", dependencies = T)
+library(bitops)
+#install.packages("plyr", dependencies = T)
+library(plyr)
+#install.packages('stringr', dependencies = T)
+library(stringr)
+#install.packages("NLP", dependencies = T)
+library(NLP)
+#install.packages("tm", dependencies = T)
+library(tm)
+#install.packages("wordcloud", dependencies=T)
+#install.packages("RColorBrewer", dependencies=TRUE)
+library(RColorBrewer)
+
+
+
+setwd("/Users/zoe/Desktop/Msc Computer Science/CS4125 Seminar Data Science/assignments/A-coursework") 
+# need to adjust this to own environment, note that for apple  use / instead of \, which used by windows 
+
+
+smoking_dd<-read.csv("activity_experiences_with_identity_level.csv", header = TRUE)
+
+
+
+##############################
+
+#taken from https://github.com/mjhea0/twitter-sentiment-analysis
+pos <- scan('positive-words.txt', what = 'character', comment.char=';') #read the positive words
+neg <- scan('negative-words.txt', what = 'character', comment.char=';') #read the negative words
+
+source("sentiment3.R") #load algoritm
+# see sentiment3.R for more information about sentiment analysis. It assigns a integer score
+# by subtracting the number of occurrence of negative words from that of positive words
+
+
+smoking_dd$E1_sen <- score.sentiment(smoking_dd$activity_experience1, pos, neg)$score
+smoking_dd$E2_sen <- score.sentiment(smoking_dd$activity_experience2, pos, neg)$score
+smoking_dd$E3_sen <- score.sentiment(smoking_dd$activity_experience3, pos, neg)$score
+smoking_dd$E4_sen <- score.sentiment(smoking_dd$activity_experience4, pos, neg)$score
+
+smoking_dd$PA_id_Lev<-factor(smoking_dd$PA_Identity_Level, labels=c("low", "medium", "high"))
+
+#The data you need for the analyses can be found in smoking_dd
+
+```
+
+
+### Visual inspection Mean and distribution sentiments
+Graphically examine the mean and the distribution of sentiments for each physical identity and provide a short interpretation.
+
+Smokers that self-identified within the higher quantiles for physical indentity overall show a positiver sentiment towards the activity experience. The boxplot indicates this by showing that third quartile and fourth quartile are between the positive range of 0 and 2. This is supported by the density plots which showcases that within the positive value range multiple local maxima can be found.
+
+The self-identification of both medium and low are indistinguishable in the boxplot and centered around 0, indicating a neutral sentiment towards the activity experience. The density plot illustrates a similar curve for both with the only difference that the medium group has two local maxima happening around the same positive and negative value. For this we can say that self identification of the smokers toward physical activity leads to a more neutral sentiment towards the experienced activity. 
+
+PA_id_Lev    E2_sen
+low       	0.1464435			
+medium    	0.1038961			
+high        0.3980100	
+
+```{r}
+library(ggplot2)
+
+# Boxplot for each physical identity level the sentiment score
+ggplot(smoking_dd, aes(x = PA_id_Lev, y = E2_sen)) +
+  geom_boxplot(
+    outliers = FALSE
+  ) +
+  labs(title = "Sentiment Scores by Physical Identity Level",
+       x = "Physical Identity Level",
+       y = "Sentiment Score")
+
+# Filter out the "high" physical identity level 
+smoking_dd_filtered <- subset(smoking_dd, PA_id_Lev != "high")
+# Boxplot for each physical identity level except "high"
+ggplot(smoking_dd_filtered, aes(x = PA_id_Lev, y = E2_sen)) +
+  geom_boxplot(
+    outliers = FALSE
+  ) +
+  labs(title = "Sentiment Scores by Physical Identity Level (Excluding 'High')",
+       x = "Physical Identity Level",
+       y = "Sentiment Score")
+
+# Density plot for each physical identity level sentiment scores
+ggplot(smoking_dd, aes(x = E2_sen, fill = PA_id_Lev)) +
+  geom_density(alpha = 0.5)  +
+  labs(title = "Density Plot of Sentiment Scores by Physical Identity Level",
+       x = "Sentiment Score",
+       y = "Density")
+
+mean_sentiment <- aggregate(E2_sen ~ PA_id_Lev, data = smoking_dd, FUN = mean)
+print(mean_sentiment)
+
+#anova_result <- aov(E2_sen ~ PA_id_Lev, data = smoking_dd)
+#summary(anova_result)
+
+```
+
+### Frequentist approach
+
+#### Verification - analysis synthetic data
+Fit linear models on synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
+--------------------------------------------------------------------------------------------------------------------------------------------
+We fit two linear models on the synthetic data. Model0 without predictor and model1 using the synthetic PA_identity_level as an predictor. The estimated values for the intercept lie close to the initialised values of the activity_experience (mean=4, sd = 1)
+
+```{r}
+#verifiation of models - synthetic data
+
+#print(length(syn_activity_experience2))
+#print(length(syn_PA_identity_level))
+#print(length(syn_model0))
+#print(length(syn_model1))
+#print(nobs(syn_model0))
+#print(nobs(syn_model1))
+
+
+syn_model0 = lm(syn_activity_experience2 ~ 1, data = syn_d) #without predictor
+syn_model1 = lm(syn_activity_experience2 ~ syn_PA_identity_level, data = syn_d) #use am (iv) as predictor
+
+
+anova(syn_model0, syn_model1) 
+summary(syn_model0)
+summary(syn_model1)
+
+```
+
+
+#### Linear model
+Redo the analysis now on the real data set. Provide a short interpretation of the results, with an interpretation of coeeficient estimate, AICc, F-value, p-value, etc.
+
+The intercept represents the expected value of "E2_sen" when "PA_id_Lev" is at its reference level, which is "low." The coefficient estimate for the intercept is 0.14644 with a standard error of 0.06879. It is statistically significant (p = 0.0336), suggesting that when "PA_id_Lev" is at the "low" level, the expected value of "E2_sen" is significantly different from zero.
+The coefficient estimate for "PA_id_Levmedium" is -0.04255, indicating that, on average, individuals with a "medium" PA identity level have a lower "E2_sen" value compared to those with a "low" PA identity level. However, this coefficient is not statistically significant (p = 0.6647), suggesting that the difference may not be meaningful.
+The coefficient estimate for "PA_id_Levhigh" is 0.25157, suggesting that individuals with a "high" PA identity level tend to have a higher "E2_sen" value compared to those with a "low" PA identity level. This coefficient is statistically significant (p = 0.0137), indicating that the difference is likely meaningful.
+
+The AICc is a measure of the model's goodness of fit, adjusted for the number of parameters in the model. In this case, a lower AICc value indicates a better balance between model fit and complexity.
+
+The F-value tests the overall significance of the model by comparing the fit of the model with predictors to the fit of a model without predictors. In this case, the F-value is 4.715 with a corresponding p-value of 0.009261, indicating that the model as a whole is statistically significant, meaning that the self-identification of physical activity has a significant effect on the activity experience.
+
+```{r}
+real_data = lm(E2_sen ~ PA_id_Lev, data = smoking_dd)
+summary(real_data)
+```
+
+#### Post Hoc analysis
+If a model that includes physical identity groups better explains the sentiments of score than a model without such predictor, conduct a posthoc analysis with, e.g., Bonferroni correction to examine which groups differ from each other. Provide a brief interpretation of the results.
+------------------------------------------------------------------------------------------------
+The pairwise comparisons with Bonferroni correction reveal the following estimated means and confidence intervals for the sentiment score across different levels of physical identity:
+
+Low physical identity group: The estimated mean sentiment score is 0.146, with a 95% confidence interval ranging from -0.0187 to 0.312.
+Medium physical identity group: The estimated mean sentiment score is 0.104, with a 95% confidence interval ranging from -0.0640 to 0.272.
+High physical identity group: The estimated mean sentiment score is 0.398, with a 95% confidence interval ranging from 0.2180 to 0.578.
+The confidence intervals provide a range of plausible values for the true mean sentiment score for each group. Additionally, since the confidence intervals for each group do not overlap, it suggests that there are significant differences between the sentiment scores of individuals belonging to different levels of physical identity.
+
+In summary, individuals in the "high" physical identity group tend to have significantly higher sentiment scores compared to those in the "low" and "medium" groups. Meanwhile, there's no significant difference between the sentiment scores of individuals in the "low" and "medium" physical identity groups.
+```{r}
+install.packages("emmeans", dependencies=T)
+library(emmeans)
+
+# Pairwise comparisons with Bonferroni correction
+pairwise <- emmeans(real_data, ~ PA_id_Lev, adjust = "bonferroni")
+
+# Display pairwise comparisons
+print(pairwise)
+
+# Interpretation of results
+# Look for significant differences between groups
+# For example, if the comparison between "low" and "medium" is significant,
+# it suggests that sentiment scores significantly differ between individuals with "low" and "medium" physical identity levels.
+
+```
+
+#### Report section for a scientific publication
+Write a small section for a scientific publication (journal or a conference), in which you report the results of the analyses, and explain the conclusions that can be drawn in a format commonly used by the scientific community Look at Brightspace for examples papers and guidelines on how to do this. (Hint, there are strict guidelines for reporting statistical results in paper, I expect you to follow these here) 
+[TODO]
+### Bayesian Approach
+For the Bayesian analyses, use the rethinking package, and optionally BayesianFirstAid library for individual comparison of groups.
+
+#### Verification - analysis synthetic data
+Fit linear models on synthetic data to verify your Bayesian model analysis with synthetic data by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results, with a reflection of coefficient estimates.
+
+```{r}
+#include your analysis code of synthetic data and output in the document
+install.packages("BayesianFirstAid", dependencies=T)
+library(BayesianFirstAid)
+library(cmdstanr)
+library(rethinking)
+
+m0_b <- ulam(
+  alist(
+    syn_activity_experience2 ~ dnorm(mu, sigma),
+    mu <- a,
+    a ~ dnorm(4.5, 1),
+    sigma ~ dcauchy(0,2)
+  ), data=syn_d, iter = 1000, chains=4, cores=4, log_lik=TRUE
+)
+
+m1_b <- ulam(
+  alist(
+    syn_activity_experience2 ~ dnorm(mu, sigma),
+    mu <- a + b1 * syn_PA_identity_level,
+    a ~ dnorm(4.5, 1),
+    b1 ~ dnorm(2, 1),
+    sigma ~ dcauchy(0,2)
+  ), 
+  data = syn_d, iter = 1000, chains = 4, cores=4,log_lik=TRUE
+)
+
+#TODO: Provide a short interpretation of the results, with a reflection of coefficient estimates.
+compare(m0_b, m1_b)
+precis(m1_b, prob=.95)
+#fit<- bayes.t.test(syn_activity_experience2 ~ syn_PA_identity_level, data = syn_d)
+#  show(fit)
+# plot(fit)
+
+```
+
+#### Model comparison
+Redo the analysis on the actual data set. Provide a short interpretation of the results, with a reflection of coefficients, WAIC, and 95% credible interval of the coefficients.
+
+```{r}
+
+bay_real_data <- subset(smoking_dd, select = c("PA_Identity_Level","E2_sen"))
+print(bay_real_data)
+
+
+m0_ba <- ulam(
+  alist(
+    E2_sen ~ dnorm(mu, sigma),
+    mu <- a,
+    a ~ dnorm(4.5, 1),
+    sigma ~ dcauchy(0,2)
+  ), data=bay_real_data, iter = 1000, chains=4, cores=4, log_lik=TRUE
+)
+
+m1_ba <- ulam(
+  alist(
+    E2_sen ~ dnorm(mu, sigma),
+    mu <- a + b1 * PA_Identity_Level,
+    a ~ normal(4.5, 1),
+    b1 ~ normal(2, 1),
+    sigma ~ dcauchy(0,2)
+  ), 
+  data = bay_real_data, iter = 1000, chains = 4, cores=4,log_lik=TRUE
+)
+
+print(compare(m0_ba, m1_ba))
+print(precis(m1_ba, prob=.95))
+
+```
+
+#### Comparison individual groups
+Compare the sentiment score of each physical activity group by estimating the 95% credible interval for the difference in the group scores. 
+
+```{r}
+#Visualize it to show comparisons.
+post_samples <- extract.samples(m1_ba)
+
+```
+
+## Question 2 - Website visits (between groups - Two factors)
+
+### Conceptual model
+Make a conceptual model underlying this research question
+
+###  Model specification
+Describe the mathematical model that you fit on the data. Take for this the complete model that you fit on the data. Also, explain your selection for the priors. For the model assume a Gaussian distribution.
+
+### Generate synthetic data
+Create a synthetic data set with a clear interaction effect between the two factors for verifying your analysis later on. Report the values of the coefficients of the linear model used to generate synthetic data.
+
+```{r}
+#include your code for generating the synthetic data
+```
+
+
+### Visual inspection
+Graphically examine the mean page visits for the four different conditions. Give a short explanation of the figure.
+
+
+```{r}
+#include your code and output in the document
+```
+
+
+### Frequentist Approach
+
+#### Verification - analysis synthetic data
+Verify your model analysis with synthetic data and show that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results, with a reflection of AICc, F-value, p-value etc.
+
+```{r}
+#include your analysis code of synthetic data and output in the document
+```
+
+#### Model analysis with Gaussian distribution assumed
+Redo the analysis now on the real data set. For the model assume a Gaussian distribution. Provide a short interpretation of the results, with an interpretation of AICc, F-value, p-value, etc.
+
+
+```{r}
+#include your code and output in the document
+```
+
+#### Assumption analysis
+Redo the analysis on the real data set.  This time assume a Poisson distribution for the number of page visits. For the best fitting models (Gaussian and Poisson), examine graphically the distribution of the residuals for the model that assumes Gaussian distribution and the model that assumes Poisson distribution. Give a brief interpretation of Poisson and Gaussian distribution assumptions.
+
+```{r}
+#include your code and output in the document
+```
+
+
+#### Simple effect analysis
+Continue with the model that assumes a Poisson distribution. If the analysis shows a significant two-way interaction effect, conduct a Simple Effect analysis to explore this interaction effect in more detail. Provide a brief interpretation of the results.
+
+
+```{r}
+#include your code and output in the document
+```
+
+
+#### Report section for a scientific publication
+Write a small section for a scientific publication, in which you report the results of the analyses, and explain the conclusions that can be drawn.
+
+### Bayesian Approach
+For the Bayesian analyses, use the rethinking and/or BayesianFirstAid library
+
+#### Verification - analysis synthetic data
+Verify your model analysis with synthetic data and show that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results, with a reflection of WAIC, and 95% credible  interval of coefficients for individual celebrities.
+
+
+```{r}
+#include your analysis code of synthetic data and output in the document
+```
+
+
+#### Model specification
+
+Describe the mathematical model fitted on the most extensive model. (hint, look at the mark down file of the lectures to see example on formulate mathematical models in markdown). Assume Poisson distribution for the number of page visits. Justify the priors.
+
+#### Model comparison
+
+Redo the analysis on actual data. Assume Poisson distribution for the number of page visits. Provide brief interpretation of the analysis results (e.g. WAIC, and 95% credible  interval of coefficients).
+
+```{r}
+#include your code and output in the document
+```
+
+# Part 3 - Multilevel model
+
+## Data preparation
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, include = FALSE}
+library(car) #scaterplot
+library(foreign)
+#install.packages("nlme4", dependencies = TRUE)
+#library(nlme4)
+library(nlme)
+#install.packages("reshape", dependencies=T)
+library(reshape)
+library(AICcmodavg)
+library(stringr) #str_split
+
+setwd("/Users/wbrinkman/surfdrive - Willem-Paul Brinkman@surfdrive.surf.nl/Teaching/OWN teaching/IN4125 - Seminar Research Methodology for Data Science/2023-2024/coursework A/answers") 
+# apple , note use / instead of \, which used by windows 
+conver_dd<-read.csv("conversational_sessions_anonym.csv", header = TRUE)
+
+
+x<-str_split(conver_dd$state_0,"|", simplify=TRUE)
+#[,18] feature 8,  results session is sign increase, 8: physical activity identity 
+#[,16] feature 7,  results session is sign decrease, 7: thinking that they can do the activity,
+#[,14] feature 6,  results session is sign decrease, 6: believing that it would be a good thing to do the activity, 
+#[,12] feature 5,  results in sign random var, non sig fixed effect, 5: feeling like needing to do the activity,
+#[.10] feature 4,  session is sign decrease, 4: feeling like wanting to do the activity,
+
+#All features except for feature 9 were measured on a 5-point Likert scale (values 0-4).
+
+#Extract physical activity, feature 4, [.10]
+PA_s0<-as.numeric(str_split(conver_dd$state_0,"|", simplify=TRUE)[,10])
+PA_s1<-as.numeric(str_split(conver_dd$state_1,"|", simplify=TRUE)[,10])
+PA_s2<-as.numeric(str_split(conver_dd$state_2,"|", simplify=TRUE)[,10])
+PA_s3<-as.numeric(str_split(conver_dd$state_3,"|", simplify=TRUE)[,10])
+PA_s4<-as.numeric(str_split(conver_dd$state_4,"|", simplify=TRUE)[,10])
+idno <- seq(from = 1, to = length(PA_s0), by = 1)
+
+PA_lim <- data.frame(idno, PA_s0,PA_s1,PA_s2,PA_s3,PA_s4)
+PA_long <- melt(PA_lim, id.vars = c("idno"), 
+                measure.vars = c("PA_s0","PA_s1","PA_s2","PA_s3","PA_s4"))
+names(PA_long) <- c("ID","session","score")
+
+PA_long$session <- as.numeric(PA_long$session)
+
+#Extract believing that it would be a good thing to do the activity, feature 6, [,14]
+BA_s0<-as.numeric(str_split(conver_dd$state_0,"|", simplify=TRUE)[,14])
+BA_s1<-as.numeric(str_split(conver_dd$state_1,"|", simplify=TRUE)[,14])
+BA_s2<-as.numeric(str_split(conver_dd$state_2,"|", simplify=TRUE)[,14])
+BA_s3<-as.numeric(str_split(conver_dd$state_3,"|", simplify=TRUE)[,14])
+BA_s4<-as.numeric(str_split(conver_dd$state_4,"|", simplify=TRUE)[,14])
+idno <- seq(from = 1, to = length(BA_s0), by = 1)
+
+BA_lim <- data.frame(idno, BA_s0,BA_s1,BA_s2,BA_s3,BA_s4)
+BA_long <- melt(BA_lim, id.vars = c("idno"), 
+                measure.vars = c("BA_s0","BA_s1","BA_s2","BA_s3","BA_s4"))
+names(BA_long) <- c("ID","session","score")
+
+BA_long$session <- as.numeric(BA_long$session)
+
+#Extract: thinking that they can do the activity, feature 7, [,16]
+TA_s0<-as.numeric(str_split(conver_dd$state_0,"|", simplify=TRUE)[,16])
+TA_s1<-as.numeric(str_split(conver_dd$state_1,"|", simplify=TRUE)[,16])
+TA_s2<-as.numeric(str_split(conver_dd$state_2,"|", simplify=TRUE)[,16])
+TA_s3<-as.numeric(str_split(conver_dd$state_3,"|", simplify=TRUE)[,16])
+TA_s4<-as.numeric(str_split(conver_dd$state_4,"|", simplify=TRUE)[,16])
+idno <- seq(from = 1, to = length(TA_s0), by = 1)
+
+TA_lim <- data.frame(idno, TA_s0,TA_s1,TA_s2,TA_s3,TA_s4)
+TA_long <- melt(TA_lim, id.vars = c("idno"), 
+                measure.vars = c("TA_s0","TA_s1","TA_s2","TA_s3","TA_s4"))
+names(TA_long) <- c("ID","session","score")
+
+TA_long$session <- as.numeric(TA_long$session)
+
+#Extract: physical activity identity, feature 8, [,18]
+PI_s0<-as.numeric(str_split(conver_dd$state_0,"|", simplify=TRUE)[,18])
+PI_s1<-as.numeric(str_split(conver_dd$state_1,"|", simplify=TRUE)[,18])
+PI_s2<-as.numeric(str_split(conver_dd$state_2,"|", simplify=TRUE)[,18])
+PI_s3<-as.numeric(str_split(conver_dd$state_3,"|", simplify=TRUE)[,18])
+PI_s4<-as.numeric(str_split(conver_dd$state_4,"|", simplify=TRUE)[,18])
+idno <- seq(from = 1, to = length(PI_s0), by = 1)
+
+PI_lim <- data.frame(idno, PI_s0,PI_s1,PI_s2,PI_s3,PI_s4)
+PI_long <- melt(PI_lim, id.vars = c("idno"), 
+                measure.vars = c("PI_s0","PI_s1","PI_s2","PI_s3","PI_s4"))
+names(PI_long) <- c("ID","session","score")
+
+PI_long$session <- as.numeric(PI_long$session)
+
+# Depending on which feature you must analyse, you can find data in the following data frames: 
+# PA_long, BA_long, TA_long, and PI_long 
+
+```
+
+
+## Visual inspection
+graphics to inspect the relationship between sessions and your feature values. Give a short description of the figure.
+
+
+```{r}
+#include your code and output in the document
+```
+
+## Model specification
+Describe the mathematical model you fit to the data. Take the most complete model as specified in point 5b.iii. Also, explain your selection for the priors. For the model assume a Gaussian distribution.
+
+## Generate synthetic data
+To verify your analysis later on, create a multilevel synthetic data set with a clear difference between sessions. Report the values of the linear model's coefficients used to generate synthetic data; you will need this to answer questions later on.
+
+
+```{r}
+#include your code and output in the document
+```
+
+## Frequentist approach
+
+### Verification - analysis synthetic data
+Fit multilevel linear models on the synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
+
+
+```{r}
+#include your code and output in the document
+```
+
+### Multilevel analysis
+Conduct multilevel analysis and calculate 95% confidence intervals thereby assuming a Gaussian distribution for the model, determine:
+
+* If session has an impact on people's state
+* If there is significant variance between the participants in their state score
+
+
+```{r}
+#include your code and output in the document
+```
+
+### Report section for a scientific publication
+Write a small section for a scientific publication, in which you report the results of the analyses on real data, and explain the conclusions that can be drawn.
+
+## Bayesian approach
+For the Bayesian analyses, use the rethinking and/or BayesianFirstAid library
+
+### Verification - analysis synthetic data
+Fit linear models on synthetic data to verify your Bayesian model analysis with synthetic data by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results, with a reflection of coefficient estimates.
+
+
+```{r}
+#include your code and output in the document
+```
+
+### Model comparison
+Compare the following models (WAIC), and provide a brief interpretation of the results:
+i.	 A model with only fixed intercept
+ii.	Model extended with an adaptive prior for Subject id
+iii.	Model extended session as a fixed factor
+
+
+```{r}
+#include your code and output in the document
+```
+
+### Estimates examination
+Examine the estimates of the model with the best fit (e.g., 95% credible interval), and provide a brief interpretation of the results.
+
+
+```{r}
+#include your code and output in the document
+```
+
+
