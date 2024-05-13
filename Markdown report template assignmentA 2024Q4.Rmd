@@ -166,6 +166,10 @@ Smokers that self-identified within the higher quantiles for physical indentity 
 
 The self-identification of both medium and low are indistinguishable in the boxplot and centered around 0, indicating a neutral sentiment towards the activity experience. The density plot illustrates a similar curve for both with the only difference that the medium group has two local maxima happening around the same positive and negative value. For this we can say that self identification of the smokers toward physical activity leads to a more neutral sentiment towards the experienced activity. 
 
+![Sentiment_scores](https://github.com/zowie128/RMDS/blob/main/sentiment_scores_physical_identity.png)
+![Density_plot](https://github.com/zowie128/RMDS/blob/main/density_plot.png)
+
+
 PA_id_Lev    E2_sen
 low       	0.1464435			
 medium    	0.1038961			
