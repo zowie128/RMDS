@@ -66,6 +66,8 @@ conceptual model for the following research question: Does the overall sentiment
 The independent variable is the level of self-identification participants gave with physical activity ('PA_Identity_Level'). This value is either low (value = 0), medium (value = 1) or high (value = 2). The values are computed based on the 33rd and 67th percentiles of raw physical identity value. 
 The dependent variable is the sentiment reported by smokers ('activity_experience2'). We hypothise that one's self-identififaction with physical activity influences the overall sentiment participants have towards the activity.  Specifically, participants with higher levels of self-identification with physical activity may report more positive sentiments after engaging in quitting smoking preparation activities that include physical activity components. 'activity_experience2' is chosen with the formula: sum of all birthmonths % 2
 
+PA_identity_level ---> activity_experience2
+
 
 ### Model specification
 Describe the mathematical model fitted on the most extensive model. (hint, look at the mark down file of the lectures to see example on formulate mathematical models in markdown). For the model assume a Gaussian distribution. Justify the priors.
@@ -73,10 +75,10 @@ Describe the mathematical model fitted on the most extensive model. (hint, look 
 We generate a null-hypothesis in the model 0 and a model 1 to see if the PA_identity level does indeed have an effect on the activity_experience reported by smokers. b0 is the prior intercept term and b1 is the prior coefficient, representing the effect of this variable on sentiment. e is the error term, representing the variability in sentiment that is not explained by the model.
 
 Model 0:
-activity_experience2 = b0 + e
+activity_experience2 = b0 
 
 Model 1:
-activity_experience2 = b0 + b1 * PA_identity_level + e
+activity_experience2 = b0 + b1 * PA_identity_level
 
 Since we are assuming a Gaussian distribution for the model we choose normal priors for b0 and b1. 
 b0: Activity_experience2 is determined by the number of positive words minus the number of negative words. This returns a integer value, which we assume is around 0 if the sentiment is neutral, which is the same amount of negative and positive words.
@@ -89,21 +91,21 @@ Create a synthetic data set with a clear difference between sentiments score bet
 
 ```{r}
 
-set_seed(23)
 #Create synthetic data
-syn_PA_identity_level <- rnorm(n = 680, mean=50, sd=20)
-
-bins <- quantile(syn_PA_identity_level, probs=c(0,1/3,2/3,1))
+syn_PA_identity_level <- rnorm(n = 680, mean = 50, sd = 20)
+bins <- quantile(syn_PA_identity_level, probs = c(0, 1/3, 2/3, 1))
 print(bins)
+bin <- cut(syn_PA_identity_level, breaks = bins, labels = c(0, 1, 2))
 
-syn_activity_experience2 <- rnorm(680, mean=4, sd=1)
+bin[is.na(bin)] <- 0
+bin_numeric <- as.numeric(as.character(bin))
+syn_activity_experience2 <- rnorm(680, mean=4+bin_numeric, sd=1)
 
 syn_PA_identity_level <- cut(syn_PA_identity_level, 
                              breaks =bins,
                              labels = c("low", "medium", "high"))
 syn_d <- data.frame(syn_activity_experience2, syn_PA_identity_level)
 syn_d <- syn_d[complete.cases(syn_d), ]
-
 ```
 
 ###  Data preparation
@@ -128,15 +130,11 @@ library(tm)
 #install.packages("RColorBrewer", dependencies=TRUE)
 library(RColorBrewer)
 
-
-
+#change to local location if markdown is ran in R studio by others
 setwd("/Users/zoe/Desktop/Msc Computer Science/CS4125 Seminar Data Science/assignments/A-coursework") 
 # need to adjust this to own environment, note that for apple  use / instead of \, which used by windows 
 
-
 smoking_dd<-read.csv("activity_experiences_with_identity_level.csv", header = TRUE)
-
-
 
 ##############################
 
@@ -185,14 +183,14 @@ ggplot(smoking_dd, aes(x = PA_id_Lev, y = E2_sen)) +
        x = "Physical Identity Level",
        y = "Sentiment Score")
 
-# Filter out the "high" physical identity level 
+#filter out the high physical identity level to see if the plots of medium and low become more interesting
 smoking_dd_filtered <- subset(smoking_dd, PA_id_Lev != "high")
 # Boxplot for each physical identity level except "high"
 ggplot(smoking_dd_filtered, aes(x = PA_id_Lev, y = E2_sen)) +
   geom_boxplot(
     outliers = FALSE
   ) +
-  labs(title = "Sentiment Scores by Physical Identity Level (Excluding 'High')",
+  labs(title = "Sentiment scores by Physical Identity Level (Excluding 'High')",
        x = "Physical Identity Level",
        y = "Sentiment Score")
 
@@ -206,8 +204,10 @@ ggplot(smoking_dd, aes(x = E2_sen, fill = PA_id_Lev)) +
 mean_sentiment <- aggregate(E2_sen ~ PA_id_Lev, data = smoking_dd, FUN = mean)
 print(mean_sentiment)
 
-#anova_result <- aov(E2_sen ~ PA_id_Lev, data = smoking_dd)
-#summary(anova_result)
+PA_id_Lev    E2_sen (mean)
+low	      0.1464435			
+medium	   0.1038961			
+high	      0.3980100	
 
 ```
 
@@ -216,7 +216,7 @@ print(mean_sentiment)
 #### Verification - analysis synthetic data
 Fit linear models on synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
 --------------------------------------------------------------------------------------------------------------------------------------------
-We fit two linear models on the synthetic data. Model0 without predictor and model1 using the synthetic PA_identity_level as an predictor. The estimated values for the intercept lie close to the initialised values of the activity_experience (mean=4 + 0.1*syn_PA_identity_level, sd = 1)
+We fit two linear models on the synthetic data. Model0 without predictor and model1 using the synthetic PA_identity_level as an predictor. The estimated values for the intercept lie close to the initialised values of the activity_experience (mean=4 + 1 * bin_numeric, sd = 1)
 
 ```{r}
 #verifiation of models - synthetic data
@@ -225,6 +225,26 @@ syn_model1 = lm(syn_activity_experience2 ~ syn_PA_identity_level, data = syn_d) 
 
 anova(syn_model0, syn_model1)
 summary(syn_model1)
+
+Call:
+lm(formula = syn_activity_experience2 ~ syn_PA_identity_level, 
+    data = syn_d)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.9888 -0.7129 -0.0759  0.7004  3.7657 
+
+Coefficients:
+                            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                  4.05365    0.06857   59.11   <2e-16 ***
+syn_PA_identity_levelmedium  0.98904    0.09698   10.20   <2e-16 ***
+syn_PA_identity_levelhigh    1.98331    0.09687   20.47   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.031 on 676 degrees of freedom
+Multiple R-squared:  0.3827,	Adjusted R-squared:  0.3809 
+F-statistic: 209.6 on 2 and 676 DF,  p-value: < 2.2e-16
 
 ```
 
@@ -236,14 +256,33 @@ The coefficient estimate for the intercept is 0.14644 with a standard error of 0
 The coefficient estimate for PA_id_Levmedium is -0.04255, indicating that, on average, individuals with a "medium" PA identity level have a lower E2_sen value compared to those with a "low" PA identity level. However, this coefficient is not statistically significant (p = 0.6647), suggesting that the expected value of E2_sen is not significantly different from zero. This can be due to an ill-fitting model, however the value 0 also represents neutrality in our case, where the number of positive and negative words in the sentiment of smoker are equal. Therefore there is a higher probability that E2_sen might indeed take on value 0.
 The coefficient estimate for PA_id_Levhig is 0.25157, suggesting that individuals with a "high" PA identity level tend to have a higher E2_sen value compared to those with a "low" PA identity level. This coefficient is statistically significant (p = 0.0137), indicating that the difference is likely meaningful.
 
-The AICc is a measure of the model's goodness of fit, a lower AICc value indicates a better balance between model fit and complexity. The AIC value for this model is 2301.789 which indicates either a complex model or a poor model fit. Since our model has no complex relationships at all, we can conclude that this high value is due to an poor model fit.
+The AICc is a measure of the model's goodness of fit, a lower AICc value indicates a better balance between model fit and complexity. The AIC value for this model is 1991.839 which indicates either a complex model or a poor model fit. Since our model has no complex relationships at all, we can conclude that this high value is due to an poor model fit.
 
 The F-value tests the overall significance of the model by comparing the fit of the model with predictors to the fit of a model without predictors. In this case, the F-value is 4.715 with a corresponding p-value of 0.009261, indicating that the model as a whole is statistically significant, meaning that the self-identification of physical activity has a significant effect on the activity experience.
 
 ```{r}
 real_data = lm(E2_sen ~ PA_id_Lev, data = smoking_dd)
 summary(real_data)
+AIC(real_data)
 ```
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.3980 -0.3980 -0.1464  0.6020  4.8536 
+
+Coefficients:
+                Estimate Std. Error t value Pr(>|t|)  
+(Intercept)      0.14644    0.06879   2.129   0.0336 *
+PA_id_Levmedium -0.04255    0.09813  -0.434   0.6647  
+PA_id_Levhigh    0.25157    0.10178   2.472   0.0137 *
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.064 on 668 degrees of freedom
+Multiple R-squared:  0.01392,	Adjusted R-squared:  0.01097 
+F-statistic: 4.715 on 2 and 668 DF,  p-value: 0.009261
+
+[1] 1991.839
 
 #### Post Hoc analysis
 If a model that includes physical identity groups better explains the sentiments of score than a model without such predictor, conduct a posthoc analysis with, e.g., Bonferroni correction to examine which groups differ from each other. Provide a brief interpretation of the results.
@@ -266,12 +305,14 @@ pairwise <- emmeans(real_data, ~ PA_id_Lev, adjust = "bonferroni")
 # Display pairwise comparisons
 print(pairwise)
 
-# Interpretation of results
-# Look for significant differences between groups
-# For example, if the comparison between "low" and "medium" is significant,
-# it suggests that sentiment scores significantly differ between individuals with "low" and "medium" physical identity levels.
-
 ```
+ PA_id_Lev emmean     SE  df lower.CL upper.CL
+ low        0.146 0.0688 668  -0.0187    0.312
+ medium     0.104 0.0700 668  -0.0640    0.272
+ high       0.398 0.0750 668   0.2180    0.578
+
+Confidence level used: 0.95 
+Conf-level adjustment: bonferroni method for 3 estimates 
 
 #### Report section for a scientific publication
 Write a small section for a scientific publication (journal or a conference), in which you report the results of the analyses, and explain the conclusions that can be drawn in a format commonly used by the scientific community Look at Brightspace for examples papers and guidelines on how to do this. (Hint, there are strict guidelines for reporting statistical results in paper, I expect you to follow these here) 
@@ -310,13 +351,8 @@ m1_b <- ulam(
   ), 
   data = syn_d, iter = 1000, chains = 4, cores=4,log_lik=TRUE
 )
-
-#TODO: Provide a short interpretation of the results, with a reflection of coefficient estimates.
 compare(m0_b, m1_b)
 precis(m1_b, prob=.95)
-#fit<- bayes.t.test(syn_activity_experience2 ~ syn_PA_identity_level, data = syn_d)
-#  show(fit)
-# plot(fit)
 
 ```
 
@@ -365,7 +401,7 @@ Compare the sentiment score of each physical activity group by estimating the 95
 ```{r}
 #Visualize it to show comparisons.
 post_samples <- extract.samples(m1_ba)
-
+[TODO]
 ```
 
 ## Question 2 - Website visits (between groups - Two factors)
