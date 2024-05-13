@@ -1,91 +1,114 @@
 ---
 title: "Coursework assignment A - 2023-2024"
 subtitle: "CS4125 Seminar Research Methodology for Data Science"
-author: "[Name 1], [Name 2], Zoë Abhelakh"
-date: "27/03/2024"
+author: "[Name 1], Sam Heslenfeld, Zoë Abhelakh"
+date: "13/05/2024"
 output:
    pdf_document:
       fig_caption: true
       number_sections: true
+editor_options: 
+  markdown: 
+    wrap: 72
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
 \tableofcontents
 
+# Part 1 - Design and set-up of true experiment
 
-# Part 1 - Design and set-up of true experiment 
+## The motivation for the planned research
 
-
-## The motivation for the planned research 
 (Max 200 words)
 
-## The theory underlying the research  
+## The theory underlying the research
+
 (Max 200 words) Preferable based on theories reported in literature
 
+## Research questions
 
-## Research questions 
-The research question that will be examined in an experiment (or alternatively the hypothesis that will be tested in an  experiment)
+The research question that will be examined in an experiment (or
+alternatively the hypothesis that will be tested in an experiment)
 
+## The related conceptual model
 
-## The related conceptual model 
-This model should include:
-*Independent variable(s)
-*Dependent variable
-*Mediating variable (at least 1)
-*Moderating variable (at least 1)
+This model should include: *Independent variable(s)* Dependent variable
+*Mediating variable (at least 1)* Moderating variable (at least 1)
 
+## Experimental Design
 
-## Experimental Design 
-Experimental Design (the study should have a true experimental design to test a single hypothesis that, for simplicity, includes only independent variable(s) and dependent variable(s). In other words, mediating and moderating variables are not included in the experimental design ) 
+Experimental Design (the study should have a true experimental design to
+test a single hypothesis that, for simplicity, includes only independent
+variable(s) and dependent variable(s). In other words, mediating and
+moderating variables are not included in the experimental design )
 
-## Experimental procedure 
+## Experimental procedure
+
 Describe how the experiment will be executed step by step
 
-
 ## Measures
+
 Describe the measure that will be used
 
 ## Participants
-Describe which participants will recruit in the study and how they will be recruited
+
+Describe which participants will recruit in the study and how they will
+be recruited
 
 ## Suggested statistical analyses
-Describe the statistical test you suggest to care out on the collected data
+
+Describe the statistical test you suggest to care out on the collected
+data
 
 # Part 2 - Generalized linear models
 
-## Question 1 Sentiment analysis (Between groups - single factor) 
+## Question 1 Sentiment analysis (Between groups - single factor)
 
 ### Conceptual model
 
-conceptual model for the following research question: Does the overall sentiment reported by smokers after a quitting smoking preparation activity differ by their level of self-identification with physical activity? 
-----------------------------------------------------------------------------------
-The independent variable is the level of self-identification participants gave with physical activity ('PA_Identity_Level'). This value is either low (value = 0), medium (value = 1) or high (value = 2). The values are computed based on the 33rd and 67th percentiles of raw physical identity value. 
-The dependent variable is the sentiment reported by smokers ('activity_experience2'). We hypothise that one's self-identififaction with physical activity influences the overall sentiment participants have towards the activity.  Specifically, participants with higher levels of self-identification with physical activity may report more positive sentiments after engaging in quitting smoking preparation activities that include physical activity components. 'activity_experience2' is chosen with the formula: sum of all birthmonths % 2
+## conceptual model for the following research question: Does the overall sentiment reported by smokers after a quitting smoking preparation activity differ by their level of self-identification with physical activity?
 
+The independent variable is the level of self-identification
+participants gave with physical activity ('PA_Identity_Level'). This
+value is either low (value = 0), medium (value = 1) or high (value = 2).
+The values are computed based on the 33rd and 67th percentiles of raw
+physical identity value. The dependent variable is the sentiment
+reported by smokers ('activity_experience2'). We hypothise that one's
+self-identififaction with physical activity influences the overall
+sentiment participants have towards the activity. Specifically,
+participants with higher levels of self-identification with physical
+activity may report more positive sentiments after engaging in quitting
+smoking preparation activities that include physical activity
+components. 'activity_experience2' is chosen with the formula: sum of
+all birthmonths % 2
 
 ### Model specification
-Describe the mathematical model fitted on the most extensive model. (hint, look at the mark down file of the lectures to see example on formulate mathematical models in markdown). For the model assume a Gaussian distribution. Justify the priors.
-----------------------------------------------------------------------------------
-We generate a null-hypothesis in the model 0 and a model 1 to see if the PA_identity level does indeed have an effect on the activity_experience reported by smokers. b0 is the prior intercept term and b1 is the prior coefficient, representing the effect of this variable on sentiment. e is the error term, representing the variability in sentiment that is not explained by the model.
 
-Model 0:
-activity_experience2 = b0 + e
+## Describe the mathematical model fitted on the most extensive model. (hint, look at the mark down file of the lectures to see example on formulate mathematical models in markdown). For the model assume a Gaussian distribution. Justify the priors.
 
-Model 1:
-activity_experience2 = b0 + b1 * PA_identity_level + e
+We generate a null-hypothesis in the model 0 and a model 1 to see if the
+PA_identity level does indeed have an effect on the activity_experience
+reported by smokers. b0 is the prior intercept term and b1 is the prior
+coefficient, representing the effect of this variable on sentiment. e is
+the error term, representing the variability in sentiment that is not
+explained by the model.
 
-Since we are assuming a Gaussian distribution for the model we choose normal priors for b0 and b1. 
-b0: Activity_experience2 is determined by the number of positive words minus the number of negative words. This returns a integer value, which we assume is around 0 if the sentiment is neutral, which is the same amount of negative and positive words.
+Model 0: activity_experience2 = b0 + e
 
+Model 1: activity_experience2 = b0 + b1 \* PA_identity_level + e
+
+Since we are assuming a Gaussian distribution for the model we choose
+normal priors for b0 and b1. b0: Activity_experience2 is determined by
+the number of positive words minus the number of negative words. This
+returns a integer value, which we assume is around 0 if the sentiment is
+neutral, which is the same amount of negative and positive words.
 
 ### Generate synthetic data
-Create a synthetic data set with a clear difference between sentiments score between the groups for verifying your analysis later on. Report the values of the coefficients of the linear model used to generate synthetic data. (hint, look at class lecture slides of lecture 4 on Generalized linear models for example to create synthetic data for car example (slide 6))
-----------------------------------------------------------------------------------
 
+## Create a synthetic data set with a clear difference between sentiments score between the groups for verifying your analysis later on. Report the values of the coefficients of the linear model used to generate synthetic data. (hint, look at class lecture slides of lecture 4 on Generalized linear models for example to create synthetic data for car example (slide 6))
 
 ```{r}
 
@@ -106,9 +129,12 @@ syn_d <- syn_d[complete.cases(syn_d), ]
 
 ```
 
-###  Data preparation
-Include the annotated R script, but put echo=FALSE, so code is not included in the output pdf file. Make sure that next to data file, sentiment3.R, positive-words.txt, and negative-words.txt are in accessible directories.
+### Data preparation
 
+Include the annotated R script, but put echo=FALSE, so code is not
+included in the output pdf file. Make sure that next to data file,
+sentiment3.R, positive-words.txt, and negative-words.txt are in
+accessible directories.
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, include = FALSE}
 
@@ -160,18 +186,30 @@ smoking_dd$PA_id_Lev<-factor(smoking_dd$PA_Identity_Level, labels=c("low", "medi
 
 ```
 
-
 ### Visual inspection Mean and distribution sentiments
-Graphically examine the mean and the distribution of sentiments for each physical identity and provide a short interpretation.
 
-Smokers that self-identified within the higher quantiles for physical indentity overall show a positiver sentiment towards the activity experience. The boxplot indicates this by showing that third quartile and fourth quartile are between the positive range of 0 and 2. This is supported by the density plots which showcases that within the positive value range multiple local maxima can be found.
+Graphically examine the mean and the distribution of sentiments for each
+physical identity and provide a short interpretation.
 
-The self-identification of both medium and low are indistinguishable in the boxplot and centered around 0, indicating a neutral sentiment towards the activity experience. The density plot illustrates a similar curve for both with the only difference that the medium group has two local maxima happening around the same positive and negative value. For this we can say that self identification of the smokers toward physical activity leads to a more neutral sentiment towards the experienced activity. 
+Smokers that self-identified within the higher quantiles for physical
+indentity overall show a positiver sentiment towards the activity
+experience. The boxplot indicates this by showing that third quartile
+and fourth quartile are between the positive range of 0 and 2. This is
+supported by the density plots which showcases that within the positive
+value range multiple local maxima can be found.
 
-PA_id_Lev    E2_sen
-low       	0.1464435			
-medium    	0.1038961			
-high        0.3980100	
+The self-identification of both medium and low are indistinguishable in
+the boxplot and centered around 0, indicating a neutral sentiment
+towards the activity experience. The density plot illustrates a similar
+curve for both with the only difference that the medium group has two
+local maxima happening around the same positive and negative value. For
+this we can say that self identification of the smokers toward physical
+activity leads to a more neutral sentiment towards the experienced
+activity.
+
+PA_id_Lev E2_sen low 0.1464435\
+medium 0.1038961\
+high 0.3980100
 
 ```{r}
 library(ggplot2)
@@ -214,9 +252,13 @@ print(mean_sentiment)
 ### Frequentist approach
 
 #### Verification - analysis synthetic data
-Fit linear models on synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
---------------------------------------------------------------------------------------------------------------------------------------------
-We fit two linear models on the synthetic data. Model0 without predictor and model1 using the synthetic PA_identity_level as an predictor. The estimated values for the intercept lie close to the initialised values of the activity_experience (mean=4, sd = 1)
+
+## Fit linear models on synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
+
+We fit two linear models on the synthetic data. Model0 without predictor
+and model1 using the synthetic PA_identity_level as an predictor. The
+estimated values for the intercept lie close to the initialised values
+of the activity_experience (mean=4, sd = 1)
 
 ```{r}
 #verifiation of models - synthetic data
@@ -239,17 +281,38 @@ summary(syn_model1)
 
 ```
 
-
 #### Linear model
-Redo the analysis now on the real data set. Provide a short interpretation of the results, with an interpretation of coeeficient estimate, AICc, F-value, p-value, etc.
 
-The intercept represents the expected value of "E2_sen" when "PA_id_Lev" is at its reference level, which is "low." The coefficient estimate for the intercept is 0.14644 with a standard error of 0.06879. It is statistically significant (p = 0.0336), suggesting that when "PA_id_Lev" is at the "low" level, the expected value of "E2_sen" is significantly different from zero.
-The coefficient estimate for "PA_id_Levmedium" is -0.04255, indicating that, on average, individuals with a "medium" PA identity level have a lower "E2_sen" value compared to those with a "low" PA identity level. However, this coefficient is not statistically significant (p = 0.6647), suggesting that the difference may not be meaningful.
-The coefficient estimate for "PA_id_Levhigh" is 0.25157, suggesting that individuals with a "high" PA identity level tend to have a higher "E2_sen" value compared to those with a "low" PA identity level. This coefficient is statistically significant (p = 0.0137), indicating that the difference is likely meaningful.
+Redo the analysis now on the real data set. Provide a short
+interpretation of the results, with an interpretation of coeeficient
+estimate, AICc, F-value, p-value, etc.
 
-The AICc is a measure of the model's goodness of fit, adjusted for the number of parameters in the model. In this case, a lower AICc value indicates a better balance between model fit and complexity.
+The intercept represents the expected value of "E2_sen" when "PA_id_Lev"
+is at its reference level, which is "low." The coefficient estimate for
+the intercept is 0.14644 with a standard error of 0.06879. It is
+statistically significant (p = 0.0336), suggesting that when "PA_id_Lev"
+is at the "low" level, the expected value of "E2_sen" is significantly
+different from zero. The coefficient estimate for "PA_id_Levmedium" is
+-0.04255, indicating that, on average, individuals with a "medium" PA
+identity level have a lower "E2_sen" value compared to those with a
+"low" PA identity level. However, this coefficient is not statistically
+significant (p = 0.6647), suggesting that the difference may not be
+meaningful. The coefficient estimate for "PA_id_Levhigh" is 0.25157,
+suggesting that individuals with a "high" PA identity level tend to have
+a higher "E2_sen" value compared to those with a "low" PA identity
+level. This coefficient is statistically significant (p = 0.0137),
+indicating that the difference is likely meaningful.
 
-The F-value tests the overall significance of the model by comparing the fit of the model with predictors to the fit of a model without predictors. In this case, the F-value is 4.715 with a corresponding p-value of 0.009261, indicating that the model as a whole is statistically significant, meaning that the self-identification of physical activity has a significant effect on the activity experience.
+The AICc is a measure of the model's goodness of fit, adjusted for the
+number of parameters in the model. In this case, a lower AICc value
+indicates a better balance between model fit and complexity.
+
+The F-value tests the overall significance of the model by comparing the
+fit of the model with predictors to the fit of a model without
+predictors. In this case, the F-value is 4.715 with a corresponding
+p-value of 0.009261, indicating that the model as a whole is
+statistically significant, meaning that the self-identification of
+physical activity has a significant effect on the activity experience.
 
 ```{r}
 real_data = lm(E2_sen ~ PA_id_Lev, data = smoking_dd)
@@ -257,16 +320,31 @@ summary(real_data)
 ```
 
 #### Post Hoc analysis
-If a model that includes physical identity groups better explains the sentiments of score than a model without such predictor, conduct a posthoc analysis with, e.g., Bonferroni correction to examine which groups differ from each other. Provide a brief interpretation of the results.
-------------------------------------------------------------------------------------------------
-The pairwise comparisons with Bonferroni correction reveal the following estimated means and confidence intervals for the sentiment score across different levels of physical identity:
 
-Low physical identity group: The estimated mean sentiment score is 0.146, with a 95% confidence interval ranging from -0.0187 to 0.312.
-Medium physical identity group: The estimated mean sentiment score is 0.104, with a 95% confidence interval ranging from -0.0640 to 0.272.
-High physical identity group: The estimated mean sentiment score is 0.398, with a 95% confidence interval ranging from 0.2180 to 0.578.
-The confidence intervals provide a range of plausible values for the true mean sentiment score for each group. Additionally, since the confidence intervals for each group do not overlap, it suggests that there are significant differences between the sentiment scores of individuals belonging to different levels of physical identity.
+## If a model that includes physical identity groups better explains the sentiments of score than a model without such predictor, conduct a posthoc analysis with, e.g., Bonferroni correction to examine which groups differ from each other. Provide a brief interpretation of the results.
 
-In summary, individuals in the "high" physical identity group tend to have significantly higher sentiment scores compared to those in the "low" and "medium" groups. Meanwhile, there's no significant difference between the sentiment scores of individuals in the "low" and "medium" physical identity groups.
+The pairwise comparisons with Bonferroni correction reveal the following
+estimated means and confidence intervals for the sentiment score across
+different levels of physical identity:
+
+Low physical identity group: The estimated mean sentiment score is
+0.146, with a 95% confidence interval ranging from -0.0187 to 0.312.
+Medium physical identity group: The estimated mean sentiment score is
+0.104, with a 95% confidence interval ranging from -0.0640 to 0.272.
+High physical identity group: The estimated mean sentiment score is
+0.398, with a 95% confidence interval ranging from 0.2180 to 0.578. The
+confidence intervals provide a range of plausible values for the true
+mean sentiment score for each group. Additionally, since the confidence
+intervals for each group do not overlap, it suggests that there are
+significant differences between the sentiment scores of individuals
+belonging to different levels of physical identity.
+
+In summary, individuals in the "high" physical identity group tend to
+have significantly higher sentiment scores compared to those in the
+"low" and "medium" groups. Meanwhile, there's no significant difference
+between the sentiment scores of individuals in the "low" and "medium"
+physical identity groups.
+
 ```{r}
 install.packages("emmeans", dependencies=T)
 library(emmeans)
@@ -285,13 +363,24 @@ print(pairwise)
 ```
 
 #### Report section for a scientific publication
-Write a small section for a scientific publication (journal or a conference), in which you report the results of the analyses, and explain the conclusions that can be drawn in a format commonly used by the scientific community Look at Brightspace for examples papers and guidelines on how to do this. (Hint, there are strict guidelines for reporting statistical results in paper, I expect you to follow these here) 
-[TODO]
-### Bayesian Approach
-For the Bayesian analyses, use the rethinking package, and optionally BayesianFirstAid library for individual comparison of groups.
+
+Write a small section for a scientific publication (journal or a
+conference), in which you report the results of the analyses, and
+explain the conclusions that can be drawn in a format commonly used by
+the scientific community Look at Brightspace for examples papers and
+guidelines on how to do this. (Hint, there are strict guidelines for
+reporting statistical results in paper, I expect you to follow these
+here) [TODO] \### Bayesian Approach For the Bayesian analyses, use the
+rethinking package, and optionally BayesianFirstAid library for
+individual comparison of groups.
 
 #### Verification - analysis synthetic data
-Fit linear models on synthetic data to verify your Bayesian model analysis with synthetic data by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results, with a reflection of coefficient estimates.
+
+Fit linear models on synthetic data to verify your Bayesian model
+analysis with synthetic data by showing that it can reproduce the
+coefficients of the linear model that you used to generate the synthetic
+data set. Provide a short interpretation of the results, with a
+reflection of coefficient estimates.
 
 ```{r}
 #include your analysis code of synthetic data and output in the document
@@ -330,7 +419,10 @@ precis(m1_b, prob=.95)
 ```
 
 #### Model comparison
-Redo the analysis on the actual data set. Provide a short interpretation of the results, with a reflection of coefficients, WAIC, and 95% credible interval of the coefficients.
+
+Redo the analysis on the actual data set. Provide a short interpretation
+of the results, with a reflection of coefficients, WAIC, and 95%
+credible interval of the coefficients.
 
 ```{r}
 
@@ -364,7 +456,10 @@ print(precis(m1_ba, prob=.95))
 ```
 
 #### Comparison individual groups
-Compare the sentiment score of each physical activity group by estimating the 95% credible interval for the difference in the group scores. 
+
+Compare the sentiment score of each physical activity group by
+estimating the 95% credible interval for the difference in the group
+scores.
 
 ```{r}
 #Visualize it to show comparisons.
@@ -375,88 +470,231 @@ post_samples <- extract.samples(m1_ba)
 ## Question 2 - Website visits (between groups - Two factors)
 
 ### Conceptual model
+
 Make a conceptual model underlying this research question
 
-###  Model specification
-Describe the mathematical model that you fit on the data. Take for this the complete model that you fit on the data. Also, explain your selection for the priors. For the model assume a Gaussian distribution.
+![Conceptual model](/2_2_model.png)
+
+### Model specification
+
+Describe the mathematical model that you fit on the data. Take for this
+the complete model that you fit on the data. Also, explain your
+selection for the priors. For the model assume a Gaussian distribution.
+
+As a basis, 2 models are compared, one with only the separate factors and coefficients
+and one with an interaction factor.
+
+The first model is based on the equation:
+$$ y = a + b \times \text{version} + c \times \text{portal} $$
+
+The second model has the following equation as a basis, such that the versions and
+portals are taken into account separately as well as in a combined
+factor for interaction:
+$$ y = a + b \times \text{version} + c \times \text{portal} + d \times (\text{version} \times \text{portal}) $$
+Where y is the variable that is predicted, a is the intercept, b is the
+coefficient for the version, c the coefficient for the portal and d the
+coefficient for the interaction term. 
+Normally distributed samples are used for the models, with a having a higher mean than the other
+coefficients, since the others are expected to have limited effects on the number of pages visited.
 
 ### Generate synthetic data
-Create a synthetic data set with a clear interaction effect between the two factors for verifying your analysis later on. Report the values of the coefficients of the linear model used to generate synthetic data.
+
+Create a synthetic data set with a clear interaction effect between the
+two factors for verifying your analysis later on. Report the values of
+the coefficients of the linear model used to generate synthetic data.
 
 ```{r}
 #include your code for generating the synthetic data
+version <- rbinom(1000, 1, .5)
+portal <- rbinom(1000, 1, .5)
+pages <- rnorm(1000, mean = 10 + 8*version + 4*portal + 2*(version*portal))
 ```
 
-
 ### Visual inspection
-Graphically examine the mean page visits for the four different conditions. Give a short explanation of the figure.
 
+Graphically examine the mean page visits for the four different
+conditions. Give a short explanation of the figure.
 
 ```{r}
 #include your code and output in the document
+library(ggplot2)
+
+pages_df <- data.frame(version, portal, pages)
+mean_pages <- pages_df %>%
+  group_by(version, portal) %>%
+  summarise(mean_pages = mean(pages))
+
+mean_pages$version <- factor(mean_pages$version)
+mean_pages$portal <- factor(mean_pages$portal)
+
+ggplot(mean_pages, aes(x = version, y = mean_pages, fill = portal)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Version", y = "Mean page visits", fill = "Portal") +
+  ggtitle("Mean page visits")
 ```
 
+The figure displays increasing means, which makes sense. The first case
+consists of only the intercept, which is close to 10. The next 2 bars
+denote the cases where only 1 of the 2 factors is 1, resulting in the
+coefficient of either 4 or 8 being added to the intercept respectively.
+The final bar displays the case in which both factors are 1, creating a
+mean of approximately 24.
 
 ### Frequentist Approach
 
 #### Verification - analysis synthetic data
-Verify your model analysis with synthetic data and show that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results, with a reflection of AICc, F-value, p-value etc.
+
+Verify your model analysis with synthetic data and show that it can
+reproduce the coefficients of the linear model that you used to generate
+the synthetic data set. Provide a short interpretation of the results,
+with a reflection of AICc, F-value, p-value etc.
 
 ```{r}
 #include your analysis code of synthetic data and output in the document
+set.seed(1)
+d <- data.frame(pages, version, portal)
+
+fm0 <- lm(pages ~ version + portal, data = d)
+fm1 <- lm(pages ~ version + portal + portal:version, data = d)
+
+anova(fm0, fm1)
+summary(fm1)
 ```
+
+Anova indicates that the extended model, which includes the interaction factor,
+is much more accurate denoted by its p-value relative to that of the basic model.
+In addition, the summary displays coefficients that very closely resemble the
+synthetic data coefficients. The p-values and the F-statistic p-value
+are all very small, indicating that all coefficients and the model
+itself are statistically significant.
 
 #### Model analysis with Gaussian distribution assumed
-Redo the analysis now on the real data set. For the model assume a Gaussian distribution. Provide a short interpretation of the results, with an interpretation of AICc, F-value, p-value, etc.
 
+Redo the analysis now on the real data set. For the model assume a
+Gaussian distribution. Provide a short interpretation of the results,
+with an interpretation of AICc, F-value, p-value, etc.
 
 ```{r}
 #include your code and output in the document
+visits_csv <- read.csv("webvisit0.csv")
+
+fm2 <- lm(pages ~ version + portal + portal:version, data = visits_csv)
+
+summary(fm2)
 ```
+
+Again all p-values are very small and thus statistically significant.
 
 #### Assumption analysis
-Redo the analysis on the real data set.  This time assume a Poisson distribution for the number of page visits. For the best fitting models (Gaussian and Poisson), examine graphically the distribution of the residuals for the model that assumes Gaussian distribution and the model that assumes Poisson distribution. Give a brief interpretation of Poisson and Gaussian distribution assumptions.
+
+Redo the analysis on the real data set. This time assume a Poisson
+distribution for the number of page visits. For the best fitting models
+(Gaussian and Poisson), examine graphically the distribution of the
+residuals for the model that assumes Gaussian distribution and the model
+that assumes Poisson distribution. Give a brief interpretation of
+Poisson and Gaussian distribution assumptions.
 
 ```{r}
 #include your code and output in the document
+fmpois <- glm(pages ~ version + portal + version:portal, data = visits_csv, family = poisson())
+
+hist(fmpois$residuals)
+hist(fm2$residuals)
 ```
 
+Both histograms seem to be normally distributed around 0, though the residual values for the Gaussian
+model show a significantly higher variance than those of the Poisson model.
 
 #### Simple effect analysis
-Continue with the model that assumes a Poisson distribution. If the analysis shows a significant two-way interaction effect, conduct a Simple Effect analysis to explore this interaction effect in more detail. Provide a brief interpretation of the results.
 
+Continue with the model that assumes a Poisson distribution. If the
+analysis shows a significant two-way interaction effect, conduct a
+Simple Effect analysis to explore this interaction effect in more
+detail. Provide a brief interpretation of the results.
 
 ```{r}
 #include your code and output in the document
+visits_csv$simple <- interaction(visits_csv$version, visits_csv$portal)
+levels(visits_csv$simple)
+contrastSimple <- c(1, -1, 0, 0)
+contrastComplex <- c(0, 0, 1, -1)
+
+SimpleEff <- cbind(contrastSimple, contrastComplex)
+contrasts(visits_csv$simple) <- SimpleEff
+simpleEffModel <- lm(pages ~ simple, data = visits_csv)
+summary.lm(simpleEffModel)
+
 ```
 
-
 #### Report section for a scientific publication
-Write a small section for a scientific publication, in which you report the results of the analyses, and explain the conclusions that can be drawn.
+
+Write a small section for a scientific publication, in which you report
+the results of the analyses, and explain the conclusions that can be
+drawn.
 
 ### Bayesian Approach
-For the Bayesian analyses, use the rethinking and/or BayesianFirstAid library
+
+For the Bayesian analyses, use the rethinking and/or BayesianFirstAid
+library
 
 #### Verification - analysis synthetic data
-Verify your model analysis with synthetic data and show that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results, with a reflection of WAIC, and 95% credible  interval of coefficients for individual celebrities.
 
+Verify your model analysis with synthetic data and show that it can
+reproduce the coefficients of the linear model that you used to generate
+the synthetic data set. Provide a short interpretation of the results,
+with a reflection of WAIC, and 95% credible interval of coefficients for
+individual celebrities.
 
 ```{r}
 #include your analysis code of synthetic data and output in the document
+bm0 <- ulam(alist(
+  pages ~ dnorm(mu, sigma),
+  mu <- a + b*version + c*portal + d*version*portal,
+  a ~ dnorm(5, 10),
+  b ~ dnorm(1, 5),
+  c ~ dnorm(1, 5),
+  d ~ dnorm(1, 5),
+  sigma ~ dnorm(0, 1)
+), data = d, iter = 10000, chains = 4, cores = 4, log_lik = TRUE)
+
+precis(bm0, prob = .95)
 ```
 
+Again, the produced estimates for the coefficients very closely resemble those of the synthetic data.
 
 #### Model specification
 
-Describe the mathematical model fitted on the most extensive model. (hint, look at the mark down file of the lectures to see example on formulate mathematical models in markdown). Assume Poisson distribution for the number of page visits. Justify the priors.
+Describe the mathematical model fitted on the most extensive model.
+(hint, look at the mark down file of the lectures to see example on
+formulate mathematical models in markdown). Assume Poisson distribution
+for the number of page visits. Justify the priors.
+
+The same equation is used as described before, though now with Poisson instead of Gaussian distribution.
+The priors are assumed to be normally distributed, with a having a mean of 5 and the other 3 priors,
+related to the coefficient factors a mean of 1.
 
 #### Model comparison
 
-Redo the analysis on actual data. Assume Poisson distribution for the number of page visits. Provide brief interpretation of the analysis results (e.g. WAIC, and 95% credible  interval of coefficients).
+Redo the analysis on actual data. Assume Poisson distribution for the
+number of page visits. Provide brief interpretation of the analysis
+results (e.g. WAIC, and 95% credible interval of coefficients).
 
 ```{r}
 #include your code and output in the document
+bm1 <- ulam(alist(
+  pages ~ dpois(lambda),
+  lambda <- a + b*version + c*portal + d*version*portal,
+  a ~ dnorm(5, 10),
+  b ~ dnorm(1, 5),
+  c ~ dnorm(1, 5),
+  d ~ dnorm(1, 5)
+), data = visits_csv, iter = 10000, chains = 4, cores = 4, log_lik = TRUE)
+
+precis(bm1, prob = .95)
 ```
+
+The produced estimates for the coefficients are comparable to those of the Frequentist approach.
+
 
 # Part 3 - Multilevel model
 
@@ -552,21 +790,27 @@ PI_long$session <- as.numeric(PI_long$session)
 
 ```
 
-
 ## Visual inspection
-graphics to inspect the relationship between sessions and your feature values. Give a short description of the figure.
 
+graphics to inspect the relationship between sessions and your feature
+values. Give a short description of the figure.
 
 ```{r}
 #include your code and output in the document
 ```
 
 ## Model specification
-Describe the mathematical model you fit to the data. Take the most complete model as specified in point 5b.iii. Also, explain your selection for the priors. For the model assume a Gaussian distribution.
+
+Describe the mathematical model you fit to the data. Take the most
+complete model as specified in point 5b.iii. Also, explain your
+selection for the priors. For the model assume a Gaussian distribution.
 
 ## Generate synthetic data
-To verify your analysis later on, create a multilevel synthetic data set with a clear difference between sessions. Report the values of the linear model's coefficients used to generate synthetic data; you will need this to answer questions later on.
 
+To verify your analysis later on, create a multilevel synthetic data set
+with a clear difference between sessions. Report the values of the
+linear model's coefficients used to generate synthetic data; you will
+need this to answer questions later on.
 
 ```{r}
 #include your code and output in the document
@@ -575,55 +819,68 @@ To verify your analysis later on, create a multilevel synthetic data set with a 
 ## Frequentist approach
 
 ### Verification - analysis synthetic data
-Fit multilevel linear models on the synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
 
+Fit multilevel linear models on the synthetic data to verify your model
+analysis by showing that it can reproduce the coefficients of the linear
+model that you used to generate the synthetic data set. Provide a short
+interpretation of the results with a reflection coefficient estimate.
 
 ```{r}
 #include your code and output in the document
 ```
 
 ### Multilevel analysis
-Conduct multilevel analysis and calculate 95% confidence intervals thereby assuming a Gaussian distribution for the model, determine:
 
-* If session has an impact on people's state
-* If there is significant variance between the participants in their state score
+Conduct multilevel analysis and calculate 95% confidence intervals
+thereby assuming a Gaussian distribution for the model, determine:
 
+-   If session has an impact on people's state
+-   If there is significant variance between the participants in their
+    state score
 
 ```{r}
 #include your code and output in the document
 ```
 
 ### Report section for a scientific publication
-Write a small section for a scientific publication, in which you report the results of the analyses on real data, and explain the conclusions that can be drawn.
+
+Write a small section for a scientific publication, in which you report
+the results of the analyses on real data, and explain the conclusions
+that can be drawn.
 
 ## Bayesian approach
-For the Bayesian analyses, use the rethinking and/or BayesianFirstAid library
+
+For the Bayesian analyses, use the rethinking and/or BayesianFirstAid
+library
 
 ### Verification - analysis synthetic data
-Fit linear models on synthetic data to verify your Bayesian model analysis with synthetic data by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results, with a reflection of coefficient estimates.
 
+Fit linear models on synthetic data to verify your Bayesian model
+analysis with synthetic data by showing that it can reproduce the
+coefficients of the linear model that you used to generate the synthetic
+data set. Provide a short interpretation of the results, with a
+reflection of coefficient estimates.
 
 ```{r}
 #include your code and output in the document
 ```
 
 ### Model comparison
-Compare the following models (WAIC), and provide a brief interpretation of the results:
-i.	 A model with only fixed intercept
-ii.	Model extended with an adaptive prior for Subject id
-iii.	Model extended session as a fixed factor
 
+Compare the following models (WAIC), and provide a brief interpretation
+of the results: i. A model with only fixed intercept ii. Model extended
+with an adaptive prior for Subject id iii. Model extended session as a
+fixed factor
 
 ```{r}
 #include your code and output in the document
 ```
 
 ### Estimates examination
-Examine the estimates of the model with the best fit (e.g., 95% credible interval), and provide a brief interpretation of the results.
 
+Examine the estimates of the model with the best fit (e.g., 95% credible
+interval), and provide a brief interpretation of the results.
 
 ```{r}
 #include your code and output in the document
 ```
-
-
