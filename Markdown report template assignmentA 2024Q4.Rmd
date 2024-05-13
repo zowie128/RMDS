@@ -1,7 +1,7 @@
 ---
 title: "Coursework assignment A - 2023-2024"
 subtitle: "CS4125 Seminar Research Methodology for Data Science"
-author: "[Name 1], [Name 2], Zoë Abhelakh"
+author: "Ella Bakker, Sam Heslenfeld, Zoë Abhelakh"
 date: "27/03/2024"
 output:
    pdf_document:
@@ -409,14 +409,37 @@ post_samples <- extract.samples(m1_ba)
 ### Conceptual model
 Make a conceptual model underlying this research question
 
+![Conceptual model](/2_2_model.png)
+
 ###  Model specification
 Describe the mathematical model that you fit on the data. Take for this the complete model that you fit on the data. Also, explain your selection for the priors. For the model assume a Gaussian distribution.
+
+As a basis, 2 models are compared, one with only the separate factors and coefficients
+and one with an interaction factor.
+
+The first model is based on the equation:
+  $$ y = a + b \times \text{version} + c \times \text{portal} $$
+  
+  The second model has the following equation as a basis, such that the versions and
+portals are taken into account separately as well as in a combined
+factor for interaction:
+  $$ y = a + b \times \text{version} + c \times \text{portal} + d \times (\text{version} \times \text{portal}) $$
+  Where y is the variable that is predicted, a is the intercept, b is the
+coefficient for the version, c the coefficient for the portal and d the
+coefficient for the interaction term. 
+Normally distributed samples are used for the models, with a having a higher mean than the other
+coefficients, since the others are expected to have limited effects on the number of pages visited.
 
 ### Generate synthetic data
 Create a synthetic data set with a clear interaction effect between the two factors for verifying your analysis later on. Report the values of the coefficients of the linear model used to generate synthetic data.
 
 ```{r}
 #include your code for generating the synthetic data
+set.seed(1)
+
+version <- rbinom(1000, 1, .5)
+portal <- rbinom(1000, 1, .5)
+pages <- rnorm(1000, mean = 10 + 8*version + 4*portal + 2*(version*portal))
 ```
 
 
@@ -426,8 +449,28 @@ Graphically examine the mean page visits for the four different conditions. Give
 
 ```{r}
 #include your code and output in the document
+library(ggplot2)
+
+pages_df <- data.frame(version, portal, pages)
+mean_pages <- pages_df %>%
+  group_by(version, portal) %>%
+  summarise(mean_pages = mean(pages))
+
+mean_pages$version <- factor(mean_pages$version)
+mean_pages$portal <- factor(mean_pages$portal)
+
+ggplot(mean_pages, aes(x = version, y = mean_pages, fill = portal)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Version", y = "Mean page visits", fill = "Portal") +
+  ggtitle("Mean page visits")
 ```
 
+The figure displays increasing means, which makes sense. The first case
+consists of only the intercept, which is close to 10. The next 2 bars
+denote the cases where only 1 of the 2 factors is 1, resulting in the
+coefficient of either 4 or 8 being added to the intercept respectively.
+The final bar displays the case in which both factors are 1, creating a
+mean of approximately 24.
 
 ### Frequentist Approach
 
@@ -436,7 +479,18 @@ Verify your model analysis with synthetic data and show that it can reproduce th
 
 ```{r}
 #include your analysis code of synthetic data and output in the document
+d <- data.frame(pages, version, portal)
+
+fm0 <- lm(pages ~ version + portal, data = d)
+fm1 <- lm(pages ~ version + portal + portal:version, data = d)
+
+anova(fm0, fm1)
+summary(fm1)
 ```
+
+Anova indicates that the extended model, which includes the interaction factor,
+is much more accurate denoted by its p-value relative to that of the basic model.
+In addition, the summary displays coefficients that very closely resemble the synthetic data coefficients. The p-values and the F-statistic p-value are all very small, indicating that all coefficients and the model itself are statistically significant.
 
 #### Model analysis with Gaussian distribution assumed
 Redo the analysis now on the real data set. For the model assume a Gaussian distribution. Provide a short interpretation of the results, with an interpretation of AICc, F-value, p-value, etc.
@@ -444,15 +498,27 @@ Redo the analysis now on the real data set. For the model assume a Gaussian dist
 
 ```{r}
 #include your code and output in the document
+visits_csv <- read.csv("webvisit0.csv")
+
+fm2 <- lm(pages ~ version + portal + portal:version, data = visits_csv)
+
+summary(fm2)
 ```
+
+Again all p-values are very small and thus statistically significant.
 
 #### Assumption analysis
 Redo the analysis on the real data set.  This time assume a Poisson distribution for the number of page visits. For the best fitting models (Gaussian and Poisson), examine graphically the distribution of the residuals for the model that assumes Gaussian distribution and the model that assumes Poisson distribution. Give a brief interpretation of Poisson and Gaussian distribution assumptions.
 
 ```{r}
 #include your code and output in the document
+fmpois <- glm(pages ~ version + portal + version:portal, data = visits_csv, family = poisson())
+
+hist(fmpois$residuals)
+hist(fm2$residuals)
 ```
 
+Both histograms seem to be normally distributed around 0, though the residual values for the Gaussian model show a significantly higher variance than those of the Poisson model.
 
 #### Simple effect analysis
 Continue with the model that assumes a Poisson distribution. If the analysis shows a significant two-way interaction effect, conduct a Simple Effect analysis to explore this interaction effect in more detail. Provide a brief interpretation of the results.
@@ -460,11 +526,22 @@ Continue with the model that assumes a Poisson distribution. If the analysis sho
 
 ```{r}
 #include your code and output in the document
+visits_csv$simple <- interaction(visits_csv$version, visits_csv$portal)
+levels(visits_csv$simple)
+contrastSimple <- c(1, -1, 0, 0)
+contrastComplex <- c(0, 0, 1, -1)
+
+SimpleEff <- cbind(contrastSimple, contrastComplex)
+contrasts(visits_csv$simple) <- SimpleEff
+simpleEffModel <- lm(pages ~ simple, data = visits_csv)
+summary.lm(simpleEffModel)
 ```
 
 
 #### Report section for a scientific publication
 Write a small section for a scientific publication, in which you report the results of the analyses, and explain the conclusions that can be drawn.
+
+
 
 ### Bayesian Approach
 For the Bayesian analyses, use the rethinking and/or BayesianFirstAid library
@@ -475,12 +552,27 @@ Verify your model analysis with synthetic data and show that it can reproduce th
 
 ```{r}
 #include your analysis code of synthetic data and output in the document
+bm0 <- ulam(alist(
+  pages ~ dnorm(mu, sigma),
+  mu <- a + b*version + c*portal + d*version*portal,
+  a ~ dnorm(5, 10),
+  b ~ dnorm(1, 5),
+  c ~ dnorm(1, 5),
+  d ~ dnorm(1, 5),
+  sigma ~ dnorm(0, 1)
+), data = d, iter = 10000, chains = 4, cores = 4, log_lik = TRUE)
+
+precis(bm0, prob = .95)
 ```
 
+Again, the produced estimates for the coefficients very closely resemble those of the synthetic data.
 
 #### Model specification
 
 Describe the mathematical model fitted on the most extensive model. (hint, look at the mark down file of the lectures to see example on formulate mathematical models in markdown). Assume Poisson distribution for the number of page visits. Justify the priors.
+
+The same equation is used as described before, though now with Poisson instead of Gaussian distribution.
+The priors are assumed to be normally distributed, with a having a mean of 5 and the other 3 priors, related to the coefficient factors a mean of 1.
 
 #### Model comparison
 
@@ -488,7 +580,19 @@ Redo the analysis on actual data. Assume Poisson distribution for the number of 
 
 ```{r}
 #include your code and output in the document
+bm1 <- ulam(alist(
+  pages ~ dpois(lambda),
+  lambda <- a + b*version + c*portal + d*version*portal,
+  a ~ dnorm(5, 10),
+  b ~ dnorm(1, 5),
+  c ~ dnorm(1, 5),
+  d ~ dnorm(1, 5)
+), data = visits_csv, iter = 10000, chains = 4, cores = 4, log_lik = TRUE)
+
+precis(bm1, prob = .95)
 ```
+
+The produced estimates for the coefficients are comparable to those of the Frequentist approach.
 
 # Part 3 - Multilevel model
 
