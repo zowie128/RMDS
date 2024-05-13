@@ -216,25 +216,14 @@ print(mean_sentiment)
 #### Verification - analysis synthetic data
 Fit linear models on synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
 --------------------------------------------------------------------------------------------------------------------------------------------
-We fit two linear models on the synthetic data. Model0 without predictor and model1 using the synthetic PA_identity_level as an predictor. The estimated values for the intercept lie close to the initialised values of the activity_experience (mean=4, sd = 1)
+We fit two linear models on the synthetic data. Model0 without predictor and model1 using the synthetic PA_identity_level as an predictor. The estimated values for the intercept lie close to the initialised values of the activity_experience (mean=4 + 0.1*syn_PA_identity_level, sd = 1)
 
 ```{r}
 #verifiation of models - synthetic data
-
-#print(length(syn_activity_experience2))
-#print(length(syn_PA_identity_level))
-#print(length(syn_model0))
-#print(length(syn_model1))
-#print(nobs(syn_model0))
-#print(nobs(syn_model1))
-
-
 syn_model0 = lm(syn_activity_experience2 ~ 1, data = syn_d) #without predictor
 syn_model1 = lm(syn_activity_experience2 ~ syn_PA_identity_level, data = syn_d) #use am (iv) as predictor
 
-
-anova(syn_model0, syn_model1) 
-summary(syn_model0)
+anova(syn_model0, syn_model1)
 summary(syn_model1)
 
 ```
@@ -243,11 +232,11 @@ summary(syn_model1)
 #### Linear model
 Redo the analysis now on the real data set. Provide a short interpretation of the results, with an interpretation of coeeficient estimate, AICc, F-value, p-value, etc.
 
-The intercept represents the expected value of "E2_sen" when "PA_id_Lev" is at its reference level, which is "low." The coefficient estimate for the intercept is 0.14644 with a standard error of 0.06879. It is statistically significant (p = 0.0336), suggesting that when "PA_id_Lev" is at the "low" level, the expected value of "E2_sen" is significantly different from zero.
-The coefficient estimate for "PA_id_Levmedium" is -0.04255, indicating that, on average, individuals with a "medium" PA identity level have a lower "E2_sen" value compared to those with a "low" PA identity level. However, this coefficient is not statistically significant (p = 0.6647), suggesting that the difference may not be meaningful.
-The coefficient estimate for "PA_id_Levhigh" is 0.25157, suggesting that individuals with a "high" PA identity level tend to have a higher "E2_sen" value compared to those with a "low" PA identity level. This coefficient is statistically significant (p = 0.0137), indicating that the difference is likely meaningful.
+The coefficient estimate for the intercept is 0.14644 with a standard error of 0.06879. It is statistically significant (p = 0.0336), suggesting that when PA_id_Lev is at the "low" level, the expected value of E2_sen is significantly different from zero.
+The coefficient estimate for PA_id_Levmedium is -0.04255, indicating that, on average, individuals with a "medium" PA identity level have a lower E2_sen value compared to those with a "low" PA identity level. However, this coefficient is not statistically significant (p = 0.6647), suggesting that the expected value of E2_sen is not significantly different from zero. This can be due to an ill-fitting model, however the value 0 also represents neutrality in our case, where the number of positive and negative words in the sentiment of smoker are equal. Therefore there is a higher probability that E2_sen might indeed take on value 0.
+The coefficient estimate for PA_id_Levhig" is 0.25157, suggesting that individuals with a "high" PA identity level tend to have a higher E2_sen value compared to those with a "low" PA identity level. This coefficient is statistically significant (p = 0.0137), indicating that the difference is likely meaningful.
 
-The AICc is a measure of the model's goodness of fit, adjusted for the number of parameters in the model. In this case, a lower AICc value indicates a better balance between model fit and complexity.
+The AICc is a measure of the model's goodness of fit, a lower AICc value indicates a better balance between model fit and complexity. The AIC value for this model is 2301.789 which indicates either a complex model or a poor model fit. Since our model has no complex relationships at all, we can conclude that this high value is due to an poor model fit.
 
 The F-value tests the overall significance of the model by comparing the fit of the model with predictors to the fit of a model without predictors. In this case, the F-value is 4.715 with a corresponding p-value of 0.009261, indicating that the model as a whole is statistically significant, meaning that the self-identification of physical activity has a significant effect on the activity experience.
 
