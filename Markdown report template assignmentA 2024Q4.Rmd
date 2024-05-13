@@ -252,6 +252,7 @@ print(mean_sentiment)
 ### Frequentist approach
 
 #### Verification - analysis synthetic data
+<<<<<<< HEAD
 
 ## Fit linear models on synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
 
@@ -259,30 +260,25 @@ We fit two linear models on the synthetic data. Model0 without predictor
 and model1 using the synthetic PA_identity_level as an predictor. The
 estimated values for the intercept lie close to the initialised values
 of the activity_experience (mean=4, sd = 1)
+=======
+Fit linear models on synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
+--------------------------------------------------------------------------------------------------------------------------------------------
+We fit two linear models on the synthetic data. Model0 without predictor and model1 using the synthetic PA_identity_level as an predictor. The estimated values for the intercept lie close to the initialised values of the activity_experience (mean=4 + 0.1*syn_PA_identity_level, sd = 1)
+>>>>>>> f7c4d15502966f15ac02dbcb2c937c39e788bd5c
 
 ```{r}
 #verifiation of models - synthetic data
-
-#print(length(syn_activity_experience2))
-#print(length(syn_PA_identity_level))
-#print(length(syn_model0))
-#print(length(syn_model1))
-#print(nobs(syn_model0))
-#print(nobs(syn_model1))
-
-
 syn_model0 = lm(syn_activity_experience2 ~ 1, data = syn_d) #without predictor
 syn_model1 = lm(syn_activity_experience2 ~ syn_PA_identity_level, data = syn_d) #use am (iv) as predictor
 
-
-anova(syn_model0, syn_model1) 
-summary(syn_model0)
+anova(syn_model0, syn_model1)
 summary(syn_model1)
 
 ```
 
 #### Linear model
 
+<<<<<<< HEAD
 Redo the analysis now on the real data set. Provide a short
 interpretation of the results, with an interpretation of coeeficient
 estimate, AICc, F-value, p-value, etc.
@@ -302,6 +298,13 @@ suggesting that individuals with a "high" PA identity level tend to have
 a higher "E2_sen" value compared to those with a "low" PA identity
 level. This coefficient is statistically significant (p = 0.0137),
 indicating that the difference is likely meaningful.
+=======
+The coefficient estimate for the intercept is 0.14644 with a standard error of 0.06879. It is statistically significant (p = 0.0336), suggesting that when PA_id_Lev is at the "low" level, the expected value of E2_sen is significantly different from zero.
+The coefficient estimate for PA_id_Levmedium is -0.04255, indicating that, on average, individuals with a "medium" PA identity level have a lower E2_sen value compared to those with a "low" PA identity level. However, this coefficient is not statistically significant (p = 0.6647), suggesting that the expected value of E2_sen is not significantly different from zero. This can be due to an ill-fitting model, however the value 0 also represents neutrality in our case, where the number of positive and negative words in the sentiment of smoker are equal. Therefore there is a higher probability that E2_sen might indeed take on value 0.
+The coefficient estimate for PA_id_Levhig is 0.25157, suggesting that individuals with a "high" PA identity level tend to have a higher E2_sen value compared to those with a "low" PA identity level. This coefficient is statistically significant (p = 0.0137), indicating that the difference is likely meaningful.
+
+The AICc is a measure of the model's goodness of fit, a lower AICc value indicates a better balance between model fit and complexity. The AIC value for this model is 2301.789 which indicates either a complex model or a poor model fit. Since our model has no complex relationships at all, we can conclude that this high value is due to an poor model fit.
+>>>>>>> f7c4d15502966f15ac02dbcb2c937c39e788bd5c
 
 The AICc is a measure of the model's goodness of fit, adjusted for the
 number of parameters in the model. In this case, a lower AICc value
@@ -382,6 +385,8 @@ coefficients of the linear model that you used to generate the synthetic
 data set. Provide a short interpretation of the results, with a
 reflection of coefficient estimates.
 
+The analysis reveals that, on average, the outcome variable has an estimated value of approximately 3.20 when the predictor variable syn_PA_identity_level is zero. Each unit increase in syn_PA_identity_level is associated with an average increase of about 0.90 units in the outcome variable. The variability in the outcome not explained by the predictor variables, represented by the standard deviation of the error term (sigma), is estimated to be around 0.99. The coefficient of syn_PA_identity_level represents the effect of a one-unit increase in syn_PA_identity_level on the outcome variable. It's estimated to be around 0.90, suggesting a positive relationship between syn_PA_identity_level and the outcome.
+
 ```{r}
 #include your analysis code of synthetic data and output in the document
 install.packages("BayesianFirstAid", dependencies=T)
@@ -393,7 +398,7 @@ m0_b <- ulam(
   alist(
     syn_activity_experience2 ~ dnorm(mu, sigma),
     mu <- a,
-    a ~ dnorm(4.5, 1),
+    a ~ dnorm(4, 1),
     sigma ~ dcauchy(0,2)
   ), data=syn_d, iter = 1000, chains=4, cores=4, log_lik=TRUE
 )
@@ -402,7 +407,7 @@ m1_b <- ulam(
   alist(
     syn_activity_experience2 ~ dnorm(mu, sigma),
     mu <- a + b1 * syn_PA_identity_level,
-    a ~ dnorm(4.5, 1),
+    a ~ dnorm(4, 1),
     b1 ~ dnorm(2, 1),
     sigma ~ dcauchy(0,2)
   ), 
@@ -424,6 +429,11 @@ Redo the analysis on the actual data set. Provide a short interpretation
 of the results, with a reflection of coefficients, WAIC, and 95%
 credible interval of the coefficients.
 
+
+The coefficient estimates for both the intercept and predictor variable are relatively small but positive, indicating a positive relationship between the predictor variable and the outcome.
+The credible intervals for the coefficients are relatively narrow, suggesting a high degree of certainty in the estimates.
+The WAIC values indicate that model m1_ba, which includes the predictor variable, provides an only slightly better fit to the data compared to m0_ba, which does not include the predictor variable.
+
 ```{r}
 
 bay_real_data <- subset(smoking_dd, select = c("PA_Identity_Level","E2_sen"))
@@ -434,7 +444,7 @@ m0_ba <- ulam(
   alist(
     E2_sen ~ dnorm(mu, sigma),
     mu <- a,
-    a ~ dnorm(4.5, 1),
+    a ~ dnorm(4, 1),
     sigma ~ dcauchy(0,2)
   ), data=bay_real_data, iter = 1000, chains=4, cores=4, log_lik=TRUE
 )
@@ -443,8 +453,8 @@ m1_ba <- ulam(
   alist(
     E2_sen ~ dnorm(mu, sigma),
     mu <- a + b1 * PA_Identity_Level,
-    a ~ normal(4.5, 1),
-    b1 ~ normal(2, 1),
+    a ~ dnorm(4, 1),
+    b1 ~ dnorm(2, 1),
     sigma ~ dcauchy(0,2)
   ), 
   data = bay_real_data, iter = 1000, chains = 4, cores=4,log_lik=TRUE
@@ -456,10 +466,14 @@ print(precis(m1_ba, prob=.95))
 ```
 
 #### Comparison individual groups
+<<<<<<< HEAD
 
 Compare the sentiment score of each physical activity group by
 estimating the 95% credible interval for the difference in the group
 scores.
+=======
+Compare the sentiment score of each physical activity group by estimating the 95% credible interval for the difference in the group scores.
+>>>>>>> f7c4d15502966f15ac02dbcb2c937c39e788bd5c
 
 ```{r}
 #Visualize it to show comparisons.
