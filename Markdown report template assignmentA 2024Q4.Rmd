@@ -243,11 +243,17 @@ ggplot(smoking_dd, aes(x = E2_sen, fill = PA_id_Lev)) +
 
 mean_sentiment <- aggregate(E2_sen ~ PA_id_Lev, data = smoking_dd, FUN = mean)
 print(mean_sentiment)
+<<<<<<< HEAD
 
 #anova_result <- aov(E2_sen ~ PA_id_Lev, data = smoking_dd)
 #summary(anova_result)
-
+=======
 ```
+PA_id_Lev    E2_sen (mean)
+low	      0.1464435			
+medium	   0.1038961			
+high	      0.3980100	
+>>>>>>> 450c430eda125d3b1e9698ad0dd00cc4e6858c75
 
 ### Frequentist approach
 
@@ -263,8 +269,32 @@ syn_model1 = lm(syn_activity_experience2 ~ syn_PA_identity_level, data = syn_d) 
 
 anova(syn_model0, syn_model1)
 summary(syn_model1)
+<<<<<<< HEAD
 
 ```
+=======
+```
+Call:
+lm(formula = syn_activity_experience2 ~ syn_PA_identity_level, 
+    data = syn_d)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-3.9888 -0.7129 -0.0759  0.7004  3.7657 
+
+Coefficients:
+                            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)                  4.05365    0.06857   59.11   <2e-16 ***
+syn_PA_identity_levelmedium  0.98904    0.09698   10.20   <2e-16 ***
+syn_PA_identity_levelhigh    1.98331    0.09687   20.47   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 1.031 on 676 degrees of freedom
+Multiple R-squared:  0.3827,	Adjusted R-squared:  0.3809 
+F-statistic: 209.6 on 2 and 676 DF,  p-value: < 2.2e-16
+
+>>>>>>> 450c430eda125d3b1e9698ad0dd00cc4e6858c75
 
 #### Linear model
 
