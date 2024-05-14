@@ -21,20 +21,41 @@ knitr::opts_chunk$set(echo = TRUE)
 This experiment will evaluate the impact of music on cognitive performance of test subjects.
 
 ## The motivation for the planned research 
-While anecdotal evidence and some research suggest that listening to classical music can improve cognitive abilities, such as memory and attention, further scientific investigation is required to validate these claims. Such research not only sheds light on the potential benefits of music for cognitive enhancement but also informs practical applications in various settings, including education, therapy, and workplace environments. Ultimately, understanding how classical music influences cognitive function contributes to our broader understanding of human cognition and behavior.
+While anecdotal evidence and some research suggest that listening to classical music can improve cognitive abilities, 
+such as memory and attention, further scientific investigation is required to validate these claims. Such research not only 
+sheds light on the potential benefits of music for cognitive enhancement but also informs practical applications in various settings, 
+including education, therapy, and workplace environments. Ultimately, understanding how classical music influences cognitive 
+function contributes to our broader understanding of human cognition and behavior.
 
-Further, a deeper exploration into the effects of classical music on cognitive function offers a pathway to uncovering the intricacies of the mind's response to auditory stimuli. In exploring this realm, this experiment aims to establish robust empirical evidence that can guide the development of evidence-based interventions and strategies for cognitive enhancement. Moreover, understanding the mechanisms through which classical music influences cognitive processes holds promise for optimizing learning environments, designing therapeutic interventions, and fostering creativity and productivity in professional settings. This pursuit not only enriches our understanding of human cognition but also underscores the transformative potential of music in shaping cognitive abilities and behaviors.
+Further, a deeper exploration into the effects of classical music on cognitive function offers a pathway to uncovering the 
+intricacies of the mind's response to auditory stimuli. In exploring this realm, this experiment aims to establish robust 
+empirical evidence that can guide the development of evidence-based interventions and strategies for cognitive enhancement. 
+Moreover, understanding the mechanisms through which classical music influences cognitive processes holds promise for optimizing 
+learning environments, designing therapeutic interventions, and fostering creativity and productivity in professional settings. 
+This pursuit not only enriches our understanding of human cognition but also underscores the transformative potential of music 
+in shaping cognitive abilities and behaviors.
 
 ## The theory underlying the research  
-Numerous studies have suggested that music can influence cognitive functions such as attention, memory, and problem-solving. One study experimented with what is known as the 'Vivaldi effect' and found that classical music significantly increases working memory performance compared to the condition without music \cite{mamma}. Another study found a statistically significant positive correlation between mindfulness, as measured by the Mindful Attention Awareness Scale (MAAS), and spatial reasoning skills, as measured by the Spatial Ability Practice Test 1 (SAPT1), particularly among participants exposed to a receptive music program for 12 weeks, indicating that long-term listening to classical music may enhance spatio-temporal reasoning abilities \cite{bell}.
+Numerous studies have suggested that music can influence cognitive functions such as attention, memory, and problem-solving. 
+One study experimented with what is known as the 'Vivaldi effect' and found that classical music significantly increases working 
+memory performance compared to the condition without music \cite{mamma}. Another study found a statistically significant positive 
+correlation between mindfulness, as measured by the Mindful Attention Awareness Scale (MAAS), and spatial reasoning skills, 
+as measured by the Spatial Ability Practice Test 1 (SAPT1), particularly among participants exposed to a receptive music program 
+for 12 weeks, indicating that long-term listening to classical music may enhance spatio-temporal reasoning abilities (Bell).
 
-A similar study study explored the impact of preferred and non-preferred popular music, as well as classical music, on the cognitive performance of college students in terms of reading comprehension \cite{harmon}. Before testing, participants listened to each music type, which aimed to alleviate the potential distractions music might pose during cognitive tasks. Although no significant differences were found in reading comprehension scores across the music conditions, the experiment raises interest in further investigating how classical music might affect cognitive performance when compared to no music at all, thus indicating the potential value of a more focused study on classical music's cognitive effects.
-
+A similar study study explored the impact of preferred and non-preferred popular music, as well as classical music, on the cognitive 
+performance of college students in terms of reading comprehension (Harmon). Before testing, participants listened to each music type, 
+which aimed to alleviate the potential distractions music might pose during cognitive tasks. Although no significant differences were 
+found in reading comprehension scores across the music conditions, the experiment raises interest in further investigating how classical 
+music might affect cognitive performance when compared to no music at all, thus indicating the potential value of a more focused study 
+on classical music's cognitive effects.
 
 ## Research questions 
 What is the effect of listening to classical music or white noise on memory retention?
 
-Hypothesis: Participants who study a set of flashcards while listening to classical music will exhibit better memory retention compared to those who study with white noise or in silence. This improvement in memory retention will not be observed in the white noise group compared to the silence group.
+Hypothesis: Participants who study a set of flashcards while listening to classical music will exhibit better memory retention compared 
+to those who study with white noise or in silence. This improvement in memory retention will not be observed in the white noise group 
+compared to the silence group.
 
 
 ## The related conceptual model 
@@ -44,6 +65,18 @@ This model should include:
 *Mediating variable (at least 1)
 *Moderating variable (at least 1)
 
+Independent variable (IV): variable that is manipulated by the researcher, including different
+auditory conditions such as classical music, white noise, and silence.
+Dependent variable (DV): the outcome variable that is being measured, which in this case is the
+performance on memory tests after studying with different auditory backgrounds.
+Mediating variable: This variable explains how or why the independent variable affects the depen-
+dent variable. It suggests that different types of music or noise levels can alter a person’s cognitive
+arousal, which in turn impacts their cognitive performance.
+Moderating variable: This variable affects the strength and direction of the relationship between the
+music type and cognitive performance. For instance, the effect of music type on cognitive performance
+could vary depending on an individual’s preference for background noise or silence while studying.
+
+(See concep.model.png)
 
 ## Experimental Design 
 This experiment will be true experimental. This design allows for high control over variables and can
@@ -123,11 +156,19 @@ information is recorded.
 regarding auditory conditions to understand moderating effects.
 
 ## Measures
-In this experiment, we will employ a series of precise measures to evaluate the impact of auditory conditions on memory retention. The primary tool for assessing memory retention will be a structured memory test, which will be administered immediately following a 30-minute study session and then again one week later to evaluate both short-term and long-term memory retention. This test will consist of recall and recognition tasks based on the content of the flashcards studied during the session. Each correct response will be scored, with additional points for accuracy in recall tasks, allowing us to quantitatively measure the level of information retained.
+In this experiment, we will employ a series of precise measures to evaluate the impact of auditory conditions on memory retention. 
+The primary tool for assessing memory retention will be a structured memory test, which will be administered immediately following 
+a 30-minute study session and then again one week later to evaluate both short-term and long-term memory retention. This test will 
+consist of recall and recognition tasks based on the content of the flashcards studied during the session. Each correct response will 
+be scored, with additional points for accuracy in recall tasks, allowing us to quantitatively measure the level of information retained.
 
-Additionally, the intensity and characteristics of the auditory stimuli, specifically classical music and white noise, will be rigorously controlled. Sound levels will be standardized and monitored using a decibel meter to ensure consistency across all sessions. Participants will experience the auditory conditions through high-quality, noise-canceling headphones to isolate them from any external sounds.
+Additionally, the intensity and characteristics of the auditory stimuli, specifically classical music and white noise, will be rigorously
+controlled. Sound levels will be standardized and monitored using a decibel meter to ensure consistency across all sessions. Participants 
+ill experience the auditory conditions through high-quality, noise-canceling headphones to isolate them from any external sounds.
 
-To further understand the participants' subjective experiences and any potential psychological effects of the auditory conditions, we will also collect qualitative data through post-experiment interviews. These interviews will probe participants' feelings about the study environment, their perceived concentration levels, and their preferences for background noise when studying. This qualitative information will be analyzed thematically to provide insights into how auditory conditions might influence cognitive performance beyond measurable memory retention.
+To further understand the participants' subjective experiences and any potential psychological effects of the auditory conditions, we will 
+also collect qualitative data through post-experiment interviews. These interviews will probe participants' feelings about the study environment,
+their perceived concentration levels, and their preferences for background noise when studying. This qualitative information will be analyzed thematically to provide insights into how auditory conditions might influence cognitive performance beyond measurable memory retention.
 
 This combination of quantitative and qualitative measures will enable a thorough analysis of the auditory conditions' effects, ensuring that our findings are both robust and nuanced. By documenting and controlling these variables meticulously, we aim to provide reliable, replicable results that contribute meaningfully to our understanding of auditory influences on cognitive performance.
 
