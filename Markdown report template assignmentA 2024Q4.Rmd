@@ -776,21 +776,19 @@ The produced estimates for the coefficients are comparable to those of the Frequ
 
 ## Data preparation
 
-```{r, echo=FALSE, message=FALSE, warning=FALSE, include = FALSE}
-library(car) #scaterplot
+```{r}
+library(car) #scatterplot
 library(foreign)
 #install.packages("nlme4", dependencies = TRUE)
 #library(nlme4)
 library(nlme)
 #install.packages("reshape", dependencies=T)
 library(reshape)
+library(reshape2)
 library(AICcmodavg)
 library(stringr) #str_split
 
-setwd("/Users/wbrinkman/surfdrive - Willem-Paul Brinkman@surfdrive.surf.nl/Teaching/OWN teaching/IN4125 - Seminar Research Methodology for Data Science/2023-2024/coursework A/answers") 
-# apple , note use / instead of \, which used by windows 
-conver_dd<-read.csv("conversational_sessions_anonym.csv", header = TRUE)
-
+conver_dd<-read.csv("/Users/ellabakker/Desktop/Data Science/conversational_sessions_anonym.csv", header = TRUE)
 
 x<-str_split(conver_dd$state_0,"|", simplify=TRUE)
 #[,18] feature 8,  results session is sign increase, 8: physical activity identity 
@@ -802,68 +800,27 @@ x<-str_split(conver_dd$state_0,"|", simplify=TRUE)
 #All features except for feature 9 were measured on a 5-point Likert scale (values 0-4).
 
 #Extract physical activity, feature 4, [.10]
-PA_s0<-as.numeric(str_split(conver_dd$state_0,"|", simplify=TRUE)[,10])
-PA_s1<-as.numeric(str_split(conver_dd$state_1,"|", simplify=TRUE)[,10])
-PA_s2<-as.numeric(str_split(conver_dd$state_2,"|", simplify=TRUE)[,10])
-PA_s3<-as.numeric(str_split(conver_dd$state_3,"|", simplify=TRUE)[,10])
-PA_s4<-as.numeric(str_split(conver_dd$state_4,"|", simplify=TRUE)[,10])
+PA_s0<-as.numeric(str_split(conver_dd$state_0,"|", simplify=TRUE)[,14])
+PA_s1<-as.numeric(str_split(conver_dd$state_1,"|", simplify=TRUE)[,14])
+PA_s2<-as.numeric(str_split(conver_dd$state_2,"|", simplify=TRUE)[,14])
+PA_s3<-as.numeric(str_split(conver_dd$state_3,"|", simplify=TRUE)[,14])
+PA_s4<-as.numeric(str_split(conver_dd$state_4,"|", simplify=TRUE)[,14])
 idno <- seq(from = 1, to = length(PA_s0), by = 1)
 
 PA_lim <- data.frame(idno, PA_s0,PA_s1,PA_s2,PA_s3,PA_s4)
 PA_long <- melt(PA_lim, id.vars = c("idno"), 
                 measure.vars = c("PA_s0","PA_s1","PA_s2","PA_s3","PA_s4"))
-names(PA_long) <- c("ID","session","score")
+names(PA_long) <- c("rand_id","Session","Values")
 
-PA_long$session <- as.numeric(PA_long$session)
+PA_long$Session <- as.numeric(PA_long$Session)
 
-#Extract believing that it would be a good thing to do the activity, feature 6, [,14]
-BA_s0<-as.numeric(str_split(conver_dd$state_0,"|", simplify=TRUE)[,14])
-BA_s1<-as.numeric(str_split(conver_dd$state_1,"|", simplify=TRUE)[,14])
-BA_s2<-as.numeric(str_split(conver_dd$state_2,"|", simplify=TRUE)[,14])
-BA_s3<-as.numeric(str_split(conver_dd$state_3,"|", simplify=TRUE)[,14])
-BA_s4<-as.numeric(str_split(conver_dd$state_4,"|", simplify=TRUE)[,14])
-idno <- seq(from = 1, to = length(BA_s0), by = 1)
-
-BA_lim <- data.frame(idno, BA_s0,BA_s1,BA_s2,BA_s3,BA_s4)
-BA_long <- melt(BA_lim, id.vars = c("idno"), 
-                measure.vars = c("BA_s0","BA_s1","BA_s2","BA_s3","BA_s4"))
-names(BA_long) <- c("ID","session","score")
-
-BA_long$session <- as.numeric(BA_long$session)
-
-#Extract: thinking that they can do the activity, feature 7, [,16]
-TA_s0<-as.numeric(str_split(conver_dd$state_0,"|", simplify=TRUE)[,16])
-TA_s1<-as.numeric(str_split(conver_dd$state_1,"|", simplify=TRUE)[,16])
-TA_s2<-as.numeric(str_split(conver_dd$state_2,"|", simplify=TRUE)[,16])
-TA_s3<-as.numeric(str_split(conver_dd$state_3,"|", simplify=TRUE)[,16])
-TA_s4<-as.numeric(str_split(conver_dd$state_4,"|", simplify=TRUE)[,16])
-idno <- seq(from = 1, to = length(TA_s0), by = 1)
-
-TA_lim <- data.frame(idno, TA_s0,TA_s1,TA_s2,TA_s3,TA_s4)
-TA_long <- melt(TA_lim, id.vars = c("idno"), 
-                measure.vars = c("TA_s0","TA_s1","TA_s2","TA_s3","TA_s4"))
-names(TA_long) <- c("ID","session","score")
-
-TA_long$session <- as.numeric(TA_long$session)
-
-#Extract: physical activity identity, feature 8, [,18]
-PI_s0<-as.numeric(str_split(conver_dd$state_0,"|", simplify=TRUE)[,18])
-PI_s1<-as.numeric(str_split(conver_dd$state_1,"|", simplify=TRUE)[,18])
-PI_s2<-as.numeric(str_split(conver_dd$state_2,"|", simplify=TRUE)[,18])
-PI_s3<-as.numeric(str_split(conver_dd$state_3,"|", simplify=TRUE)[,18])
-PI_s4<-as.numeric(str_split(conver_dd$state_4,"|", simplify=TRUE)[,18])
-idno <- seq(from = 1, to = length(PI_s0), by = 1)
-
-PI_lim <- data.frame(idno, PI_s0,PI_s1,PI_s2,PI_s3,PI_s4)
-PI_long <- melt(PI_lim, id.vars = c("idno"), 
-                measure.vars = c("PI_s0","PI_s1","PI_s2","PI_s3","PI_s4"))
-names(PI_long) <- c("ID","session","score")
-
-PI_long$session <- as.numeric(PI_long$session)
-
-# Depending on which feature you must analyse, you can find data in the following data frames: 
-# PA_long, BA_long, TA_long, and PI_long 
-
+# Plot the boxplot
+boxplot(Values ~ Session, data = PA_long, 
+        main = "Feature Responses Across All Sessions",
+        xlab = "Session",
+        ylab = "Values",
+        notch = FALSE,
+        col = 'orange')
 ```
 
 
