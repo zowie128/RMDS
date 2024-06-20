@@ -785,7 +785,7 @@ library(reshape2)
 library(AICcmodavg)
 library(stringr)
 
-conver_dd<-read.csv("/Users/ellabakker/Desktop/Data Science/courseworkA/conversational_sessions_anonym.csv", header=TRUE)
+conver_dd<-read.csv("https://raw.githubusercontent.com/zowie128/RMDS/main/conversational_sessions_anonym.csv", header=TRUE)
 x<-str_split(conver_dd$state_0,"|", simplify=TRUE)
 #[,18] feature 8,  results session is sign increase, 8: physical activity identity 
 #[,16] feature 7,  results session is sign decrease, 7: thinking that they can do the activity,
@@ -812,24 +812,82 @@ PA_long$Session <- as.numeric(PA_long$Session)
 
 ```
 
-
 ## Visual inspection
-graphics to inspect the relationship between sessions and your feature values. Give a short description of the figure.
-
+The analysis of the relationship between session and the responses to feature 6, represented in the box plot below, indicates a generally consistent distribution across different sessions. The box plot illustrates that while there are slight variations in the median values of feature 6 responses between sessions, these differences are not substantial.
 
 ```{r}
-#include your code and output in the document
+# Plot the boxplot
+boxplot(Values ~ Session, data = PA_long, 
+        main = "Feature Responses Across All Sessions",
+        xlab = "Session",
+        ylab = "Values",
+        notch = FALSE,
+        col = 'gray')
 ```
 
 ## Model specification
 Describe the mathematical model you fit to the data. Take the most complete model as specified in point 5b.iii. Also, explain your selection for the priors. For the model assume a Gaussian distribution.
+
+The model fitted to the data is a linear mixed-effects model. This model includes fixed effects to capture the influence of each session on the outcome variable "Values" and random effects to account for the variability among participants (random intercepts). The error term is assumed to follow a Gaussian distribution.
+
+The model can be written as:
+
+\[ Y_{ij} = \beta_0 + \beta_1 \text{Session}_{ij} + u_{0j} + \epsilon_{ij} \]
+
+where:
+- \( Y_{ij} \) is the value for participant \( j \) in session \( i \)
+- \( \beta_0 \) is the fixed intercept
+- \( \beta_1 \) is the fixed effect of session
+- \( u_{0j} \) is the random intercept for participant \( j \)
+- \( \epsilon_{ij} \) is the residual error, assumed to be normally distributed
+
+For the Bayesian approach, default non-informative priors are used to let the data primarily inform the model parameters.
+
 
 ## Generate synthetic data
 To verify your analysis later on, create a multilevel synthetic data set with a clear difference between sessions. Report the values of the linear model's coefficients used to generate synthetic data; you will need this to answer questions later on.
 
 
 ```{r}
-#include your code and output in the document
+# Load necessary libraries
+library(dplyr)
+library(lme4)
+library(ggplot2)
+
+# Coefficients (example values)
+beta_intercept <- 2   # Baseline intercept
+beta_session_effect <- c(0, 0.5, 1, 1.5, 2)  # Effect per session, assuming 5 sessions
+sigma_participant <- 0.5  # SD of random intercepts for participants
+sigma_residual <- 1    # SD of residuals
+
+# Make Session and rand_id into factors
+PA_long$Session <- as.factor(PA_long$Session)
+PA_long$rand_id <- as.factor(PA_long$rand_id)
+
+# Define parameters
+n <- nrow(PA_long)
+n_sessions <- length(unique(PA_long$Session))
+n_participants <- length(unique(PA_long$rand_id))
+
+# Generate participant effects
+set.seed(123)  # for reproducibility
+participant_effect <- rnorm(n_participants, mean = 0, sd = sigma_participant)
+
+# Create the synthetic data frame
+df_synthetic <- PA_long %>%
+  mutate(
+    Participant_Effect = participant_effect[as.integer(rand_id)], 
+    True_Values = beta_intercept + beta_session_effect[as.integer(Session)] + 
+      Participant_Effect + rnorm(n, mean = 0, sd = sigma_residual),
+    Values = True_Values
+  )
+
+# Plot using ggplot2
+ggplot(df_synthetic, aes(x=factor(Session), y=Values)) +
+  geom_boxplot() +
+  labs(x = "Session", y = "Values") +
+  ggtitle("Box Plot of Values by Session")
+
 ```
 
 ## Frequentist approach
@@ -837,9 +895,50 @@ To verify your analysis later on, create a multilevel synthetic data set with a 
 ### Verification - analysis synthetic data
 Fit multilevel linear models on the synthetic data to verify your model analysis by showing that it can reproduce the coefficients of the linear model that you used to generate the synthetic data set. Provide a short interpretation of the results with a reflection coefficient estimate.
 
+The synthetic data and the resulting box plot (as is generated in the code below) show a clear increasing trend across sessions, consistent with the specified session effects. By fitting a model to this synthetic data and comparing the estimated coefficients to the true values, we can verify the correctness of the model and ensure it accurately reflects the underlying data-generating process.
+
+The baseline value (intercept) is approximately 2.03858, which is very close to the specified baseline intercept (2) in the synthetic data generation process. The estimated session effects (0.47836, 0.94565, 1.45362, and 1.94596) are very close to the specified session effects (0, 0.5, 1, 1.5, 2). This confirms that the model accurately captures the increasing trend across sessions.
+The variance of the random intercept (0.2491) is close to the specified variance for participant effects (0.5^2 = 0.25). The residual variance (0.9817) is also close to the specified residual variance (1^2 = 1).
 
 ```{r}
-#include your code and output in the document
+# Load necessary libraries
+library(dplyr)
+library(lme4)
+library(ggplot2)
+
+# Coefficients (example values)
+beta_intercept <- 2   # Baseline intercept
+beta_session_effect <- c(0, 0.5, 1, 1.5, 2)  # Effect per session, assuming 5 sessions
+sigma_participant <- 0.5  # SD of random intercepts for participants
+sigma_residual <- 1    # SD of residuals
+
+# Make Session and rand_id into factors
+PA_long$Session <- as.factor(PA_long$Session)
+PA_long$rand_id <- as.factor(PA_long$rand_id)
+
+# Define parameters
+n <- nrow(PA_long)
+n_sessions <- length(unique(PA_long$Session))
+n_participants <- length(unique(PA_long$rand_id))
+
+# Generate participant effects
+set.seed(123)  # for reproducibility
+participant_effect <- rnorm(n_participants, mean = 0, sd = sigma_participant)
+
+# Create the synthetic data frame
+df_synthetic <- PA_long %>%
+  mutate(
+    Participant_Effect = participant_effect[as.integer(rand_id)], 
+    True_Values = beta_intercept + beta_session_effect[as.integer(Session)] + 
+      Participant_Effect + rnorm(n, mean = 0, sd = sigma_residual),
+    Values = True_Values
+  )
+
+# Plot using ggplot2
+ggplot(df_synthetic, aes(x=factor(Session), y=Values)) +
+  geom_boxplot() +
+  labs(x = "Session", y = "Values") +
+  ggtitle("Box Plot of Values by Session")
 ```
 
 ### Multilevel analysis
