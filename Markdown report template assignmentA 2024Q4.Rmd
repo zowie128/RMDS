@@ -76,7 +76,7 @@ Moderating variable: This variable affects the strength and direction of the rel
 music type and cognitive performance. For instance, the effect of music type on cognitive performance
 could vary depending on an individual’s preference for background noise or silence while studying.
 
-(See concep.model.png)
+![Conceptual Model](concep.model.png)
 
 ## Experimental Design 
 This experiment will be true experimental. This design allows for high control over variables and can
