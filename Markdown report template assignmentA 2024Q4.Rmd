@@ -4,14 +4,14 @@ subtitle: "CS4125 Seminar Research Methodology for Data Science"
 author: "Ella Bakker, Sam Heslenfeld, Zoë Abhelakh"
 date: "27/03/2024"
 output:
-   pdf_document:
-      fig_caption: true
-      number_sections: true
+  pdf_document:
+    fig_caption: true
+    number_sections: true
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
+
 
 
 \tableofcontents
